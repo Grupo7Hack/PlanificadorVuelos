@@ -1,0 +1,36 @@
+PLANIFICADOR DE VUELO 
+
+PARA USUARIO  RESGISTRADOS Y SIN REGISTRAR:
+
+
+
+La pagina de inicio mostrara una cabecera, en la esquina superior izquierda el logo del planificador de vuelos, en la esquina superior derecha se encontraran las opciones de Registrar y de Iniciar Sesion, si se inicia una sesion, en su lugar se mostrara la foto del usuario y su nombre, en el caso de que el usuario no modificara los datos al confirmar el registro, se mostrara un icono de usuario y el email con el cual se registro. El nombre/email sera de tipo link el cual al hacer clic lo redireccionara a la pagina de Modificacion de Datos donde podra editar sus datos (cambiar el nombre, cambiar la contraseña, y agregar una foto para su perfil) o eliminar el registro. 
+
+Si es un nuevo usuario, al dar clic en Registrar se le mostrara una ventana emergente con el formulario de registro, el cual contiene dos campos el de email y el de contraseña, la opcion para aceptar los terminos y condiciones y un boton de enviar. Al culminar con el registro se le enviar al correo que indico un mensaje de confirmacion con un link el cual lo redirecciona a la pagina de Modificacion de Datos para que complete la informacion de su perfil.
+
+Si es un usuario ya registrado, al dar clic en Iniciar Sesion, se le mostrara una ventana emergente con el formulario de inicio de sesion, donde le solicita el email y la contraseña con la que se registro, tambien le da la opcion de ¿olvido contraseña? (En el caso de olvidar la contraseña, se le solicitara el email con el que se registro y si es un email registrado se le envia un correo para restablecer su contraseña, redireccionandolo a una pagina donde podra indicar su nueva contraseña, confirmarla y aceptar los cambios, luego lo redirecciona a la pagina de inicio), al iniciar la sesion lo redirecciona a la pagina de inicio.
+
+
+
+En la pagina de inicia debajo de la cabecera se mostrara un buscador con varios filtros, origen, destino, fecha de ida del vuelo, fecha de vuelta del vuelo, los tipos de pasajeros, y si solo es un vuelo de ida.
+
+Buscadores:
+Origen / Destino:
+realiza la busqueda de las ciudades y aeropuertos a partir de las 3 primeras letras.
+
+Fecha de ida / Fecha de vuelta:
+muestra un calendario con las fechas a partir del dia en el que se realiza la busqueda.
+
+Tipo de Pasajeros:
+Muestra un desplegable de los tipos de pasajeros que van a viajar, adultos, joven, niños o bebes.
+
+Al realizar una busqueda, si el aeropuerto de destino o de alguna de las escalas al que se desea viajar presenta para la fecha del viaje restricciones sanitarias por el COVID19 se mostrara un banner con un aviso de alerta, debajo una nueva barra de navegacion con nuevos filtros que se podran aplicar a la lista de vuelos encontrados, y luego las opciones de vuelos que cumplen con los filtros que se indicaron en un principio.
+
+Se podra filtra ahora por escalas(Sin escalas, 1 escala, 2 escalas, 3 escalas), rango de precios(< 100, < 500 <1000 ... ), clase(Turista, Business) y duracion(<1h, <3h, <5h...)
+
+En las opciones de los vuelos se mostrara primero las opciones de ida, cada opcion contendra la informacion mas relevante del vuelo, como la aerolinea, hora de ida y hora de llegada al destino, duracion del vuelo, si tiene escalas y el numero de las mismas, y el precio. Junto al precio se mostrara un desplegable que contendra información más detallada del vuelo como: La aerolina, hora de salida y hora de llegada, la fecha del vuelo y un boton para reservar; luego hora de salida y el aeropuerto, si tiene escala, duracion desde el aeropuerto de salida al aeropuerto de la primera escala, hora de llegada al aeropuerto de la primera escala, duracion de la escala y el aeropuerto donde corresponda, si es mas de una escala, se muestra a continuacion la misma secuencia de informacion, luego hora de salida del aeropuerto de la ultima escala, duracion desde el aeropuerto de la ultima escala hasta el aeropuerto de destino, hora de llegada al aeropuero de destino, Junto a cada aeropuerto se mostrara informacion como si cuenta con wifi, comida, distancia de asientos, y otros que puedan ser relevantes.
+
+Al seleccionar un vuelo de ida, se mostraran los vuelos de vuelta.
+
+
+Al usuario realizar una reserva se validara si esta registrado o no, en el caso de que no lo este le solicitara que se registre antes de continuar con la reserva. Si se encuentra registrado le mostrara una ventana emergente donde le indicara que su reserva se realizo con exito y que a sido enviada toda la informacion a su Email. Al cerrar la ventana se vuelve a la pagina de inicio. 
