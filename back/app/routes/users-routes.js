@@ -13,4 +13,11 @@ router.route("/login").post((req, res) => login(req, res));
 
 router.route("/activation").get((req, res) => activateCodeUser(req, res));
 
+//api/v1/users/:id
+router
+  .route("/:id")
+  .put((req, res) => updateUser(req, res))
+  .patch((req, res) => updateParameterUser(req, res))
+  .delete((req, res) => deleteUser(req, res));
+
 module.exports = router;
