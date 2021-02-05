@@ -2,13 +2,13 @@
 const bcrypt = require("bcryptjs");
 const cryptoRandomString = require("crypto-random-string");
 const Joi = require("joi");
-const { sendEmailActivation } = require("../helpers/mail-smtp");
+const { sendEmailActivation } = require("../../helpers/mail-smtp");
 
 const {
   addCodeActivation,
   createUser,
   findUserByEmail,
-} = require("../repositories/users-repository");
+} = require("../../repositories/users-repository");
 
 const schema = Joi.object().keys({
   name: Joi.string().alphanum().min(3).max(20).required(),
