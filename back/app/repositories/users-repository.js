@@ -58,7 +58,7 @@ async function deleteDataUser(id) {
   const queryUser = `UPDATE usuarios 
   SET fecha_expiracion = ? 
   WHERE fecha_expiracion IS NULL AND id = ?`;
-  await connection.query(queryUser, [id, fechaDeExpiracion]);
+  await connection.query(queryUser, [fechaDeExpiracion, id]);
 
   return true;
 }
@@ -78,13 +78,24 @@ async function findUserById(id) {
 }
 
 async function udpateDataUser(data) {
-  const { id, name, email, password } = data;
+  const { id, nombre, email, contraseña } = data;
   const connection = await database.getConnection();
 
   const query = `UPDATE usuarios
   SET nombre = ?, email = ?, contraseña = ?
   WHERE id = ?`;
-  await connection.query(query, [name, email, password, id]);
+  await connection.query(query, [nombre, email, contraseña, id]);
+
+  return true;
+}
+
+async function updateUserByPatch(id, dataUser) {
+  const { nombre, email, contraseña } = dataUser;
+  const connection = await database.getConnection();
+
+  const query =
+    "UPDATE usuarios SET nombre = ?, email = ?, contraseña = ? WHERE id = ?";
+  await connection.query(query, [nombre, email, contraseña, id]);
 
   return true;
 }
@@ -115,5 +126,6 @@ module.exports = {
   findUserByEmail,
   findUserById,
   udpateDataUser,
+  updateUserByPatch,
   validateCodeActivation,
 };

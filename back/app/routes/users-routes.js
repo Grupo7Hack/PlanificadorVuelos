@@ -6,6 +6,9 @@ const login = require("../controllers/user/login-user");
 const logout = require("../controllers/user/logout-user");
 const activateCodeUser = require("../controllers/user/activate-users");
 const updateUser = require("../controllers/user/update-user");
+const patchUser = require("../controllers/user/patch-user");
+const deleteUser = require("../controllers/user/delete-user");
+
 const validateAuth = require("../middlewares/validate-authorization");
 
 const router = express.Router();
@@ -22,7 +25,7 @@ router
   .route("/:id")
   .all(validateAuth)
   .put((req, res) => updateUser(req, res))
-  .patch((req, res) => updateParameterUser(req, res))
+  .patch((req, res) => patchUser(req, res))
   .delete((req, res) => deleteUser(req, res));
 
 module.exports = router;

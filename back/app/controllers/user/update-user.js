@@ -14,9 +14,9 @@ const {
 
 const schema = Joi.object().keys({
   name: Joi.string().min(3).max(20).required(),
-  email: Joi.string().email(),
-  password: Joi.string(),
-  repeatPassword: Joi.string(),
+  email: Joi.string().email().optional(),
+  password: Joi.string().optional(),
+  repeatPassword: Joi.string().optional(),
 });
 
 const schemaPassword = Joi.object().keys({
@@ -26,7 +26,7 @@ const schemaPassword = Joi.object().keys({
 
 async function updateUser(req, res) {
   try {
-    const { id } = req.auth;
+    const { id } = req.params;
 
     await schema.validateAsync(req.body);
     const { name, email, password, repeatPassword } = req.body;
@@ -45,19 +45,23 @@ async function updateUser(req, res) {
       // await sendEmailActivation(name, email, codeActivation);
       await deletePreviousCodeActivation(id);
       await addCodeActivation(id, codeActivation);
-      console.log("se cambio el email");
     }
 
-    let currentPassword = userExists.password;
+    let currentPassword = userExists["contraseña"];
+
     if (password) {
       await schemaPassword.validateAsync({ password, repeatPassword });
       const passwordHash = await bcrypt.hash(password, 12);
 
       currentPassword = passwordHash;
-      console.log("se cambio el password");
     }
 
-    await udpateDataUser({ id, name, email, password: currentPassword });
+    await udpateDataUser({
+      id,
+      nombre: name,
+      email,
+      contraseña: currentPassword,
+    });
 
     res.send({ id, name, email, role: userExists.role });
   } catch (err) {

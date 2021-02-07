@@ -5,7 +5,6 @@ const {
   deleteDataUser,
   findUserById,
 } = require("../../repositories/users-repository");
-const createJsonError = require("../errors/create-json-errors");
 
 const schema = Joi.number().positive();
 
@@ -28,9 +27,9 @@ async function deleteUser(req, res) {
     }
     const userDeleted = await deleteDataUser(id);
 
-    res.status(204).send();
+    res.status(200).send("Usuario eliminado con exito");
   } catch (err) {
-    res.status(err.status).send({ error: err.message });
+    res.status(409).send({ error: err.message });
   }
 }
 
