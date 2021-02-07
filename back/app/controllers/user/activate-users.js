@@ -1,6 +1,8 @@
 "use strict";
 
-const { validateCodeActivation } = require("../repositories/users-repository");
+const {
+  validateCodeActivation,
+} = require("../../repositories/users-repository");
 const Joi = require("joi");
 
 const schema = Joi.string().min(64).max(64);

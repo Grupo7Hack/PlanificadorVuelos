@@ -2,7 +2,7 @@
 const Joi = require("joi");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const { findUserByEmail } = require("../repositories/users-repository");
+const { findUserByEmail } = require("../../repositories/users-repository");
 
 const schema = Joi.object().keys({
   email: Joi.string().email().required(),

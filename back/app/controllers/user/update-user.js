@@ -1,7 +1,7 @@
 "use strict";
 
 const Joi = require("joi");
-const { findUserByEmail } = require("../repositories/users-repository");
+const { findUserByEmail } = require("../../repositories/users-repository");
 
 const schema = Joi.object().keys({
   name: Joi.string().alphanum().min(3).max(20).required(),
