@@ -1,10 +1,10 @@
 "use strict";
 
-const { getClasses } = require("../../repositories/flights-repository");
+const { findClasses } = require("../../repositories/flights-repository");
 
 async function getClasses(req, res) {
   try {
-    const classes = await getClasses();
+    const classes = await findClasses();
 
     res.status(200).send(classes);
   } catch (err) {

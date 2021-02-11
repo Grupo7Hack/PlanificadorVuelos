@@ -1,10 +1,10 @@
 "use strict";
 
-const { getPassengers } = require("../../repositories/flights-repository");
+const { findPassengers } = require("../../repositories/flights-repository");
 
 async function getPassengers(req, res) {
   try {
-    const passengers = await getPassengers();
+    const passengers = await findPassengers();
 
     res.status(200).send(passengers);
   } catch (err) {
