@@ -77,6 +77,14 @@ async function findUserById(id) {
   return user[0];
 }
 
+async function findUserImage(id) {
+  const connection = await database.getConnection();
+  const query = "SELECT foto FROM usuarios WHERE id = ?";
+  const [users] = await connection.query(query, id);
+
+  return users[0];
+}
+
 async function udpateDataUser(data) {
   const { id, nombre, email, contraseña } = data;
   const connection = await database.getConnection();
@@ -96,6 +104,14 @@ async function updateUserByPatch(id, dataUser) {
   const query =
     "UPDATE usuarios SET nombre = ?, email = ?, contraseña = ? WHERE id = ?";
   await connection.query(query, [nombre, email, contraseña, id]);
+
+  return true;
+}
+
+async function uploadUserImage(id, image) {
+  const connection = await database.getConnection();
+  const query = "UPDATE usuarios SET foto = ? WHERE id = ?";
+  await connection.query(query, [image, id]);
 
   return true;
 }
@@ -125,7 +141,9 @@ module.exports = {
   deletePreviousCodeActivation,
   findUserByEmail,
   findUserById,
+  findUserImage,
   udpateDataUser,
   updateUserByPatch,
+  uploadUserImage,
   validateCodeActivation,
 };

@@ -209,6 +209,43 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "UPLOAD-IMAGE-USER",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{accessToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "image",
+							"type": "file",
+							"src": "/home/daniela/Downloads/computers.jpeg"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/api/v1/users/upload",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"upload"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }

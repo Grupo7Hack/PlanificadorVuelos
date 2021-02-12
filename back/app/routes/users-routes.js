@@ -8,6 +8,7 @@ const activateCodeUser = require("../controllers/user/activate-users");
 const updateUser = require("../controllers/user/update-user");
 const patchUser = require("../controllers/user/patch-user");
 const deleteUser = require("../controllers/user/delete-user");
+const uploadImage = require("../controllers/user/upload-image-user");
 
 const validateAuth = require("../middlewares/validate-authorization");
 
@@ -27,5 +28,10 @@ router
   .put((req, res) => updateUser(req, res))
   .patch((req, res) => patchUser(req, res))
   .delete((req, res) => deleteUser(req, res));
+
+router
+  .route("/upload")
+  .all(validateAuth)
+  .post((req, res) => uploadImage(req, res));
 
 module.exports = router;
