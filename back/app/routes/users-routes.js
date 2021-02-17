@@ -29,6 +29,7 @@ router
   .patch((req, res) => patchUser(req, res))
   .delete((req, res) => deleteUser(req, res));
 
+//api/v1/users/upload
 router
   .route("/upload")
   .all(validateAuth)

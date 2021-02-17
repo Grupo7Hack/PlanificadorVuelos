@@ -32,7 +32,7 @@ async function registerUsers(req, res) {
     const id = await createUser(name, email, passwordHash, "foto", "user");
 
     const codeActivation = cryptoRandomString({ length: 64 });
-    // await sendEmailActivation(name, email, codeActivation);
+    await sendEmailActivation(name, email, codeActivation);
     await addCodeActivation(id, codeActivation);
 
     res.status(201).send({ id: id, name, email });
