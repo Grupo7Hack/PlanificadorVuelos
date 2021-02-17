@@ -3,6 +3,7 @@
 const express = require("express");
 const registerUsers = require("../controllers/user/register-users");
 const login = require("../controllers/user/login-user");
+
 const logout = require("../controllers/user/logout-user");
 const activateCodeUser = require("../controllers/user/activate-users");
 const updateUser = require("../controllers/user/update-user");
