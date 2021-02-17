@@ -2,7 +2,6 @@
 
 const database = require("../infrastructure/database");
 const unirest = require("unirest");
-const { response } = require("express");
 
 async function findClasses() {
   const pool = await database.getPool();
