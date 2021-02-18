@@ -50,8 +50,44 @@ async function sendEmailCorrectActivation(name, email) {
 
   return data;
 }
+async function sendEmailReservation(name, email, datos) {
+  const {
+    origen,
+    destino,
+    fechaIda,
+    fechaVuelta,
+    escala,
+    precio,
+    numAdultos,
+    numNinos,
+    numBebes,
+    aerolinea,
+  } = datos;
+
+  const mailData = {
+    from: "youremail@yopmail.com",
+    to: email,
+    subject: "Reservacion",
+    text: `Hola ${name},\n Tu reservacion se realizo con exito`,
+    html: `<p>Hola ${name},</p>
+    <p>Tu reserva se realizo con exito</p>
+    <p>Los datos de tu reserva son:</p>
+    <p>Origen:${origen}
+    Destino:${destino}
+    Fecha de Ida:${fechaIda}
+    Fecha de Vuelta:${fechaVuelta}
+    Precio:${precio}
+    Pasajeros:${numAdultos}
+    Aerolinea:${aerolinea}</p>`,
+  };
+
+  const data = await transporter.sendMail(mailData);
+
+  return data;
+}
 
 module.exports = {
   sendEmailActivation,
   sendEmailCorrectActivation,
+  sendEmailReservation,
 };

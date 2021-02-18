@@ -4,7 +4,7 @@ const database = require("../infrastructure/database");
 const unirest = require("unirest");
 
 async function findClasses() {
-  const pool = await database.getPool();
+  const pool = await database.getConnection();
   const query = `SELECT * FROM clases`;
   const [classes] = await pool.query(query);
 
@@ -36,7 +36,7 @@ function findFlights(origen, destino, fechaIda) {
 }
 
 async function findPassengers() {
-  const pool = await database.getPool();
+  const pool = await database.getConnection();
   const query = `SELECT * FROM pasajeros`;
   const [passengers] = await pool.query(query);
 
@@ -44,7 +44,7 @@ async function findPassengers() {
 }
 
 async function findAllPlaces() {
-  const pool = await database.getPool();
+  const pool = await database.getConnection();
   const query = `SELECT * FROM aeropuertos`;
   const [places] = await pool.query(query);
 
@@ -52,7 +52,7 @@ async function findAllPlaces() {
 }
 
 async function findPlaces(name) {
-  const pool = await database.getPool();
+  const pool = await database.getConnection();
   const query = `SELECT a.nombre as aeropuerto, a.codigo_iata, c.id as id_ciudad, c.nombre as ciudad, p.id as id_pais, p.nombre as pais
                  FROM aeropuertos a
                  LEFT JOIN ciudades c on a.id_ciudad = c.id

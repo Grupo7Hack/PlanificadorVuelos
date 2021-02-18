@@ -246,6 +246,41 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "RESERVA",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{accessToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{   \"origen\": \"MAD\",\n    \"destino\": \"TFN\",\n    \"fechaIda\": \"2020-05-05\",\n    \"fechaVuelta\": \"2020-06-08\",\n    \"escala\": false,\n    \"precio\": 507.50,\n    \"numAdultos\": 1,\n    \"aerolinea\": 1234\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/api/v1/reservation",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"reservation"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }
