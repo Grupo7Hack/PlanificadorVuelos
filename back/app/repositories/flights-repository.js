@@ -3,6 +3,8 @@
 const database = require("../infrastructure/database");
 const unirest = require("unirest");
 
+const { RAPIDAPIKEY, RAPIDAPIHOST, SKYKEY } = process.env;
+
 async function findClasses() {
   const pool = await database.getConnection();
   const query = `SELECT * FROM clases`;
@@ -15,15 +17,15 @@ function findFlights(origen, destino, fechaIda) {
   return new Promise((resolve, reject) => {
     let req = unirest(
       "GET",
-      `https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browsequotes/v1.0/ES/EUR/es-ES/${origen}/${destino}/${fechaIda}/`
+      // `https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browsequotes/v1.0/ES/EUR/es-ES/${origen}/${destino}/${fechaIda}/`
+      `https://partners.api.skyscanner.net/apiservices/browsequotes/v1.0/ES/eur/es-ES/${origen}/${destino}/${fechaIda}?apikey=${SKYKEY}`
     );
 
-    req.header({
-      "x-rapidapi-key": "60051f9eb4msh4aba1f88f85eb78p12e3d0jsn7a0b9c392646",
-      "x-rapidapi-host":
-        "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com",
-      useQueryString: true,
-    });
+    // req.header({
+    //   "x-rapidapi-key": RAPIDAPIKEY,
+    //   "x-rapidapi-host": RAPIDAPIHOST,
+    //   useQueryString: true,
+    // });
 
     req.end(function (res) {
       if (res) {
