@@ -65,7 +65,7 @@ async function sendEmailReservation(name, email, datos) {
   } = datos;
 
   const mailData = {
-    from: "youremail@yopmail.com",
+    from: "noresponder@yopmail.com",
     to: email,
     subject: "Reservacion",
     text: `Hola ${name},\n Tu reservacion se realizo con exito`,

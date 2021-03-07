@@ -1,5 +1,4 @@
 "use strict";
-const bcrypt = require("bcryptjs");
 const Joi = require("joi");
 const makeReservation = require("../../repositories/reservations-repository");
 const { sendEmailReservation } = require("../../helpers/mail-smtp");
@@ -37,7 +36,7 @@ async function createReservation(req, res) {
     } = req.body;
 
     const existUser = await findUserById(id);
-    const { name, email } = existUser;
+    const { nombre, email } = existUser;
     if (!existUser) {
       const error = new Error(
         `El usuario debe estar registrado para realizar la reserva`
@@ -59,7 +58,7 @@ async function createReservation(req, res) {
       aerolinea,
     };
     const reservation = await makeReservation(id, dataReservation);
-    // await sendEmailReservation(name, email, dataReservation);
+    await sendEmailReservation(nombre, email, dataReservation);
 
     res.status(201).send({ id: reservation });
   } catch (err) {

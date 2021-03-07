@@ -6,6 +6,7 @@ async function logout(req, res) {
   try {
     const token = "";
     const jwtTokenExpiryTime = "";
+    // localStorage.removeItem("accessToken");
     const response = { accessToken: token, expiresIn: jwtTokenExpiryTime };
     res.send(response);
   } catch (err) {
