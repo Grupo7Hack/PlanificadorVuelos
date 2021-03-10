@@ -2,8 +2,33 @@ import React, { useState } from "react";
 import { ReactSelectOrigin } from "../components/ReactSelectOrigin";
 import { ReactSelectDestination } from "../components/ReactSelectDestination";
 import { useLocalStorage } from "../hooks/useLocalStorage";
+import "../css/Homepage.css";
+import adultImg from "../img/adult.png";
+import kidImg from "../img/kid.png";
+import babyImg from "../img/baby.png";
 
 export const Homepage = () => {
+  let initialDatePickers = (
+    <div className="datesContainer">
+      <input
+        type="date"
+        min="2021-03-09"
+        max="2022-03-09"
+        name="trip-start"
+        required="required"
+        onChange={outboundDateHandler}
+      ></input>
+      <input
+        type="date"
+        min="2021-03-09"
+        max="2022-03-09"
+        name="trip-end"
+        onChange={inboundDateHandler}
+      ></input>
+    </div>
+  );
+
+  const [roundTrip, setRoundTrip] = useState(initialDatePickers);
   const [origin] = useLocalStorage("origen");
   const [destination] = useLocalStorage("destino");
   const [category, setCategory] = useState("Economy");
@@ -14,6 +39,10 @@ export const Homepage = () => {
   const [infants, setInfants] = useState(0);
   const [maxStops, setMaxStops] = useState(0);
   const [searchResults, setSearchResults] = useState();
+  const [selectedOutboundFlight, setSelectedOutboundFlight] = useState();
+  const [selectedInboundFlight, setSelectedInboundFlight] = useState();
+
+  let arrangedResultsData = [];
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -21,7 +50,7 @@ export const Homepage = () => {
     const iataOrigin = origin.selectedOption.value;
     const iataDestination = destination.selectedOption.value;
 
-    const url = `http://localhost:8088/api/v1/flights/${category}/${iataOrigin}/${iataDestination}/${outboundDate}/${adults}/${children}/${infants}/${maxStops}`;
+    const url = `http://localhost:8088/api/v1/flights/${category}/${iataOrigin}/${iataDestination}/${outboundDate}/${inboundDate}/${adults}/${children}/${infants}/${maxStops}`;
     fetch(url, {
       method: "POST",
     })
@@ -31,10 +60,6 @@ export const Homepage = () => {
       .then((flights) => {
         setSearchResults({ ...flights.body });
       });
-  };
-
-  const maxStopsHandler = (e) => {
-    setMaxStops(e.target.value);
   };
 
   const numberOfAdultsHandler = (e) => {
@@ -53,12 +78,45 @@ export const Homepage = () => {
     setCategory(e.target.value);
   };
 
-  const outboundDateHandler = (e) => {
+  function outboundDateHandler(e) {
     setOutboundDate(e.target.value);
-  };
+  }
 
-  const inboundDateHandler = (e) => {
+  function inboundDateHandler(e) {
     setInboundDate(e.target.value);
+  }
+
+  function handleRadioButton0(e) {
+    setMaxStops(e.target.value);
+  }
+
+  function handleRadioButton1(e) {
+    setMaxStops(e.target.value);
+  }
+
+  function handleRadioButton2(e) {
+    setMaxStops(e.target.value);
+  }
+
+  const roundTripHandler = (e) => {
+    if (e.target.value === "Ida y vuelta") {
+      setRoundTrip(initialDatePickers);
+    } else {
+      let datePickers = (
+        <div className="datesContainer">
+          <input
+            type="date"
+            min="2021-03-09"
+            max="2022-03-09"
+            name="trip-start"
+            required="required"
+            onChange={outboundDateHandler}
+          ></input>
+        </div>
+      );
+      setInboundDate("");
+      setRoundTrip(datePickers);
+    }
   };
 
   const numberOfPassengersOptions = [];
@@ -66,6 +124,135 @@ export const Homepage = () => {
   for (let i = 1; i < 9; i++) {
     numberOfPassengersOptions.push(<option key={i}>{i}</option>);
   }
+
+  let searchForm = (
+    <div className="searchForm">
+      <form onSubmit={handleSearch} className="search-form">
+        <div className="roundTripAndClassContainer">
+          <select className="roundTrip" onChange={roundTripHandler}>
+            <option>Ida y vuelta</option>
+            <option>Solo ida</option>
+          </select>
+          <select className="class" onChange={categoryHandler}>
+            <option value="Economy">Turista</option>
+            <option value="PremiumEconomy">Turista Premium</option>
+            <option>Business</option>
+            <option value="First">Primera</option>
+          </select>
+        </div>
+        <div className="placesAndDatesContainer">
+          <div className="placesContainer">
+            <ReactSelectOrigin></ReactSelectOrigin>
+            <ReactSelectDestination></ReactSelectDestination>
+          </div>
+          {roundTrip}
+        </div>
+        <div className="passengersAndScales">
+          <div className="passengers">
+            <div className="passenger-count">
+              <select onChange={numberOfAdultsHandler}>
+                {numberOfPassengersOptions}
+              </select>
+              <img
+                src={adultImg}
+                alt="Adult"
+                className="passengerImg"
+                width="45px"
+                height="45px"
+              />
+            </div>
+            <div className="passenger-count">
+              <select onChange={numberOfChildrenHandler}>
+                <option key="0">0</option>
+                {numberOfPassengersOptions}
+              </select>
+              <img
+                src={kidImg}
+                alt="Kid"
+                className="passengerImg"
+                width="45px"
+                height="45px"
+              />
+            </div>
+            <div className="passenger-count">
+              <select onChange={numberOfInfantsHandler}>
+                <option key="0">0</option>
+                {numberOfPassengersOptions}
+              </select>
+              <img
+                src={babyImg}
+                alt="baby"
+                className="passengerImg"
+                width="45px"
+                height="45px"
+              />
+            </div>
+          </div>
+          <div className="scales">
+            <div className="scales-info-0">
+              <label>Escalas:</label>
+              <input
+                type="radio"
+                id="scales0"
+                name="contact"
+                value="0"
+                defaultChecked="true"
+                onChange={handleRadioButton0}
+              ></input>
+              <label for="scales0">0</label>
+            </div>
+            <div className="scales-info">
+              <input
+                type="radio"
+                id="scales1"
+                name="contact"
+                value="1"
+                onChange={handleRadioButton1}
+              ></input>
+              <label for="scales1">1</label>
+            </div>
+            <div className="scales-info">
+              <input
+                type="radio"
+                id="scales2"
+                name="contact"
+                value="2"
+                onChange={handleRadioButton2}
+              ></input>
+              <label for="scales2">2+</label>
+            </div>
+          </div>
+        </div>
+        <button type="submit" className="searchButton">
+          Buscar
+        </button>
+      </form>
+    </div>
+  );
+
+  const flightSelectionHandler = (e) => {
+    let inboundOrOutbound = selectedOutboundFlight ? "Inbound" : "Outbound";
+
+    if (inboundOrOutbound === "Inbound") {
+      const numberOfButton = e.target.id;
+      const inboundFlightToSelect = arrangedResultsData[numberOfButton];
+      setSelectedInboundFlight(inboundFlightToSelect);
+      console.log(selectedInboundFlight);
+
+      // Si el usuario está logueado:
+      // Llamar a una función que pida confirmación
+      // y haga la reserva.
+
+      // Si no hay login:
+      // Llamar a una función que indique que
+      // debe loguearse o registrarse.
+    } else {
+      const numberOfButton = e.target.id;
+      const outboundFlightToSelect = arrangedResultsData[numberOfButton];
+      setSelectedOutboundFlight(outboundFlightToSelect);
+      console.log(selectedOutboundFlight);
+    }
+  };
 
   if (searchResults) {
     const airlines = { ...searchResults.Carriers };
@@ -78,12 +265,10 @@ export const Homepage = () => {
 
     let airlinesData = [];
     let pricesData = [];
-    let arrangedResultsData = [];
 
     for (let airline of airlinesMap) {
       airlinesData.push(airline[1]);
     }
-    console.log(airlinesData);
 
     for (let price of pricesMap) {
       pricesData.push(price[1]);
@@ -100,115 +285,99 @@ export const Homepage = () => {
       arrangedResult.AirlineImageUrl = foundAirline.ImageUrl;
 
       let foundPrice = pricesData.find((price) => {
-        return price.OutboundLegId === resultId;
+        return (
+          price.OutboundLegId === resultId || price.InboundLegId === resultId
+        );
       });
-      arrangedResult.Price = foundPrice.PricingOptions[0].Price;
-
-      arrangedResultsData.push(arrangedResult);
+      if (foundPrice) {
+        arrangedResult.Price = foundPrice.PricingOptions[0].Price;
+        arrangedResultsData.push(arrangedResult);
+      }
     }
 
     if (pricesData.length < 1) {
       return (
         <div>
-          <form onSubmit={handleSearch}>
-            {/* handle onChange del select para ocultar el input de fecha de vuelta */}
-            <select>
-              <option>Ida y vuelta</option>
-              <option>Solo ida</option>
-            </select>
-            <br></br>
-            <br></br>
-            <label>
-              Seleccione el máximo de escalas a realizar (0 para buscar
-              únicamente vuelos directos).
-            </label>
-            <br></br>
-            <select onChange={maxStopsHandler}>
-              <option>0</option>
-              <option>1</option>
-              <option value="">2 o más</option>
-            </select>
-            <br></br>
-            <br></br>
-            <label>Seleccione el número de pasajeros...</label>
-            <br></br>
-            <label>Adultos:</label>
-            <br></br>
-            <select onChange={numberOfAdultsHandler}>
-              {numberOfPassengersOptions}
-            </select>
-            <br></br>
-            <br></br>
-            <label>Niños (de 2 a 12 años):</label>
-            <br></br>
-            <select onChange={numberOfChildrenHandler}>
-              <option key="0">0</option>
-              {numberOfPassengersOptions}
-            </select>
-            <br></br>
-            <br></br>
-            <label>Bebés:</label>
-            <br></br>
-            <select onChange={numberOfInfantsHandler}>
-              <option key="0">0</option>
-              {numberOfPassengersOptions}
-            </select>
-            <br></br>
-            <br></br>
-            <label>Seleccione la clase de los asientos.</label>
-            <br></br>
-            <select onChange={categoryHandler}>
-              <option value="Economy">Turista</option>
-              <option value="PremiumEconomy">Turista Premium</option>
-              <option>Business</option>
-              <option value="First">Primera</option>
-            </select>
-            <br></br>
-            <br></br>
-            <ReactSelectOrigin></ReactSelectOrigin>
-            <ReactSelectDestination></ReactSelectDestination>
-            <br></br>
-            <label>Seleccione la fecha de ida.</label>
-            <br></br>
-            <input
-              type="date"
-              required="required"
-              onChange={outboundDateHandler}
-            ></input>
-            <br></br>
-            <br></br>
-            <label>Seleccione la fecha de vuelta.</label>
-            <br></br>
-            <input type="date" onChange={inboundDateHandler}></input>
-            <br></br>
-            <br></br>
-            <button type="submit">Buscar</button>
-          </form>
-          <br></br>
+          {searchForm}
           <div>No existen vuelos, modifique los filtros.</div>
         </div>
       );
     } else {
+      let inboundOrOutbound = selectedOutboundFlight ? "Inbound" : "Outbound";
+      let typeOfFlight = selectedOutboundFlight ? "vuelta" : "ida";
       return (
         <div>
+          {searchForm}
           <div>
-            {arrangedResultsData.map((result) => {
-              return (
-                <div>
-                  <img
-                    src={result.AirlineImageUrl}
-                    max-width="10px"
-                    alt="Airline Logo"
-                  ></img>
-                  <div>{result.AirlineName}</div>
-                  <div>Salida: {result[1].Departure.toLocaleString()}</div>
-                  <div>Llegada: {result[1].Arrival.toLocaleString()}</div>
-                  <div>Duración (en minutos): {result[1].Duration}</div>
-                  <div>Escalas: {result[1].Stops.length}</div>
-                  <div>{result.Price}€</div>
-                  <br></br>
+            {selectedOutboundFlight && (
+              <div key={selectedOutboundFlight} className="individual-result">
+                <img
+                  src={selectedOutboundFlight.AirlineImageUrl}
+                  max-width="10px"
+                  alt="Airline Logo"
+                  className="airline-logo"
+                ></img>
+                {/* <div>{selectedOutboundFlight.AirlineName}</div> */}
+                <div className="ida">
+                  {origin.selectedOption.value}:{" "}
+                  {new Date(
+                    Date.parse(selectedOutboundFlight[1].Departure)
+                  ).toLocaleString()}
                 </div>
-              );
+                <div className="vuelta">
+                  {destination.selectedOption.value}:{" "}
+                  {new Date(
+                    Date.parse(selectedOutboundFlight[1].Arrival)
+                  ).toLocaleString()}
+                </div>
+                {/* <div>{selectedOutboundFlight[1].Duration} minutos de vuelo.</div> */}
+                <div className="escalas">
+                  Escalas: {selectedOutboundFlight[1].Stops.length}
+                </div>
+                <div className="precio">{selectedOutboundFlight.Price}€</div>
+                <div className="info-selec">Vuelo de ida elegido</div>
+              </div>
+            )}
+          </div>
+          <div className="search-results">
+            {arrangedResultsData.map((result, index) => {
+              if (result[1].Directionality === inboundOrOutbound) {
+                let departureDate = Date.parse(result[1].Departure);
+                let arrangedDepartureDate = new Date(departureDate);
+                let arrivalDate = Date.parse(result[1].Arrival);
+                let arrangedArrivalDate = new Date(arrivalDate);
+                return (
+                  <div key={index} className="individual-result">
+                    <img
+                      src={result.AirlineImageUrl}
+                      max-width="10px"
+                      alt="Airline Logo"
+                      className="airline-logo"
+                    ></img>
+                    {/* <div>{result.AirlineName}</div> */}
+                    <div className="ida">
+                      {origin.selectedOption.value}:{" "}
+                      {arrangedDepartureDate.toLocaleString()}
+                    </div>
+                    <div className="vuelta">
+                      {destination.selectedOption.value}:{" "}
+                      {arrangedArrivalDate.toLocaleString()}
+                    </div>
+                    {/* <div>{result[1].Duration} minutos de vuelo.</div> */}
+                    <div className="escalas">
+                      Escalas: {result[1].Stops.length}
+                    </div>
+                    <div className="precio">{result.Price}€</div>
+                    <button
+                      onClick={flightSelectionHandler}
+                      id={index}
+                      className="btn-ida"
+                    >
+                      Seleccionar vuelo de {typeOfFlight}
+                    </button>
+                  </div>
+                );
+              }
             })}
           </div>
         </div>
@@ -216,82 +385,5 @@ export const Homepage = () => {
     }
   }
 
-  return (
-    <div>
-      <form onSubmit={handleSearch}>
-        {/* handle onChange del select para ocultar el input de fecha de vuelta */}
-        <select>
-          <option>Ida y vuelta</option>
-          <option>Solo ida</option>
-        </select>
-        <br></br>
-        <br></br>
-        <label>
-          Seleccione el máximo de escalas a realizar (0 para buscar únicamente
-          vuelos directos).
-        </label>
-        <br></br>
-        <select onChange={maxStopsHandler}>
-          <option>0</option>
-          <option>1</option>
-          <option value="2">2 o más</option>
-        </select>
-        <br></br>
-        <br></br>
-        <label>Seleccione el número de pasajeros...</label>
-        <br></br>
-        <label>Adultos:</label>
-        <br></br>
-        <select onChange={numberOfAdultsHandler}>
-          {numberOfPassengersOptions}
-        </select>
-        <br></br>
-        <br></br>
-        <label>Niños (de 2 a 12 años):</label>
-        <br></br>
-        <select onChange={numberOfChildrenHandler}>
-          <option key="0">0</option>
-          {numberOfPassengersOptions}
-        </select>
-        <br></br>
-        <br></br>
-        <label>Bebés:</label>
-        <br></br>
-        <select onChange={numberOfInfantsHandler}>
-          <option key="0">0</option>
-          {numberOfPassengersOptions}
-        </select>
-        <br></br>
-        <br></br>
-        <label>Seleccione la clase de los asientos.</label>
-        <br></br>
-        <select onChange={categoryHandler}>
-          <option value="Economy">Turista</option>
-          <option value="PremiumEconomy">Turista Premium</option>
-          <option>Business</option>
-          <option value="First">Primera</option>
-        </select>
-        <br></br>
-        <br></br>
-        <ReactSelectOrigin></ReactSelectOrigin>
-        <ReactSelectDestination></ReactSelectDestination>
-        <br></br>
-        <label>Seleccione la fecha de ida.</label>
-        <br></br>
-        <input
-          type="date"
-          required="required"
-          onChange={outboundDateHandler}
-        ></input>
-        <br></br>
-        <br></br>
-        <label>Seleccione la fecha de vuelta.</label>
-        <br></br>
-        <input type="date" onChange={inboundDateHandler}></input>
-        <br></br>
-        <br></br>
-        <button type="submit">Buscar</button>
-      </form>
-    </div>
-  );
+  return <div>{searchForm}</div>;
 };

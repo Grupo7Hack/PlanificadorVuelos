@@ -2,13 +2,13 @@
 
 const { findAllPlaces } = require("../../repositories/flights-repository");
 
-async function getAllPlaces(req, res) {
+function getAllPlaces(req, res) {
   try {
-    const places = await findAllPlaces();
+    const places = findAllPlaces();
 
     res.status(200).send(places);
   } catch (err) {
-    res.status(err.status);
+    res.status(400);
     res.send({ err: err.message });
   }
 }

@@ -2,30 +2,15 @@
 
 const database = require("../infrastructure/database");
 const unirest = require("unirest");
-
 const { SKYKEY } = process.env;
-
-async function findClasses() {
-  const pool = await database.getConnection();
-  const query = `SELECT * FROM clases`;
-  const [classes] = await pool.query(query);
-
-  return classes;
-}
+const placesData = require("../../placesdb.json");
 
 function findFlights(origen, destino, fechaIda) {
   return new Promise((resolve, reject) => {
     let req = unirest(
       "GET",
-      // `https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browsequotes/v1.0/ES/EUR/es-ES/${origen}/${destino}/${fechaIda}/`
       `https://partners.api.skyscanner.net/apiservices/browsequotes/v1.0/ES/eur/es-ES/${origen}/${destino}/${fechaIda}?apikey=${SKYKEY}`
     );
-
-    // req.header({
-    //   "x-rapidapi-key": RAPIDAPIKEY,
-    //   "x-rapidapi-host": RAPIDAPIHOST,
-    //   useQueryString: true,
-    // });
 
     req.end(function (res) {
       if (res) {
@@ -37,20 +22,24 @@ function findFlights(origen, destino, fechaIda) {
   });
 }
 
-async function findPassengers() {
-  const pool = await database.getConnection();
-  const query = `SELECT * FROM pasajeros`;
-  const [passengers] = await pool.query(query);
+function findAllPlaces() {
+  const countries = { ...placesData.Continents[3].Countries };
+  const countriesMap = new Map(Object.entries(countries));
+  let countriesData = [];
+  for (let country of countriesMap) {
+    countriesData.push(country[1]);
+  }
 
-  return passengers;
-}
+  let cities = countriesData.map(({ Cities }) => Cities);
 
-async function findAllPlaces() {
-  const pool = await database.getConnection();
-  const query = `SELECT * FROM aeropuertos`;
-  const [places] = await pool.query(query);
+  let airports = [];
 
-  return places;
+  cities.forEach((city) => {
+    city.map(({ Airports }) => {
+      airports.push(Airports);
+    });
+  });
+  return airports;
 }
 
 async function findPlaces(name) {
@@ -72,6 +61,7 @@ function findOutboundFlights(
   origin,
   destination,
   outboundDate,
+  inboundDate,
   adults,
   children,
   infants,
@@ -96,7 +86,7 @@ function findOutboundFlights(
       originplace: origin,
       destinationplace: destination,
       outbounddate: outboundDate,
-      inbounddate: "",
+      inbounddate: inboundDate,
       adults: adults,
       children: children,
       infants: infants,
@@ -106,12 +96,9 @@ function findOutboundFlights(
 
     req.end(function (res) {
       if (res) {
-        // resolve(res);
         const code = res.headers.location.substring(65);
-        // console.log("1a", res);
         resolve(retrieveData(code, maxStops));
       } else {
-        // console.log("1b", res);
         reject(res);
       }
     });
@@ -128,7 +115,6 @@ function retrieveData(code, maxStops) {
 
       req.end(function (response) {
         if (response) {
-          // console.log("2a", response);
           if (response.body.Status === "UpdatesPending") {
             console.log(response.body.Status);
             resolve(retrieveData(code, maxStops));
@@ -136,9 +122,7 @@ function retrieveData(code, maxStops) {
             console.log(response.body.Status);
             resolve(response);
           }
-          // console.log(55, response.body);
         } else {
-          // console.log("2b", response);
           reject(response);
         }
       });
@@ -152,17 +136,14 @@ function retrieveData(code, maxStops) {
 
       req.end(function (response) {
         if (response) {
-          // console.log("2a", response);
-          if (response.body.Status === "UpdatesPending") {
-            console.log(response.body.Status);
-            resolve(retrieveData(code, maxStops));
-          } else {
-            console.log(response.body.Status);
-            resolve(response);
-          }
-          // console.log(55, response.body);
+          // if (response.body.Status === "UpdatesPending") {
+          //   console.log(response.body.Status);
+          //   resolve(retrieveData(code, maxStops));
+          // } else {
+          //   console.log(response.body.Status);
+          resolve(response);
+          // }
         } else {
-          // console.log("2b", response);
           reject(response);
         }
       });
@@ -171,9 +152,7 @@ function retrieveData(code, maxStops) {
 }
 
 module.exports = {
-  findClasses,
   findFlights,
-  findPassengers,
   findPlaces,
   findAllPlaces,
   findOutboundFlights,

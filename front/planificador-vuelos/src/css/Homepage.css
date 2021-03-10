@@ -1,0 +1,411 @@
+html {
+  height: 100%;
+}
+
+body {
+  background: rgb(135, 206, 250);
+  background: no-repeat
+    linear-gradient(
+      180deg,
+      rgba(135, 206, 250, 1) 0%,
+      rgba(255, 255, 255, 1) 100%
+    );
+}
+
+.datesContainer {
+  display: flex;
+  height: 38px;
+  margin-top: 10px;
+}
+input {
+  flex: 1;
+  border: none;
+  margin: 0px 5px 0px 5px;
+}
+.passenger-count {
+  display: flex;
+  margin: 0px 0px 5px 5px;
+}
+.passengerImg {
+  height: 24px;
+  width: 24px;
+}
+.passengers {
+  display: flex;
+  flex-direction: column;
+}
+.passengersAndScales {
+  display: flex;
+  margin-top: 10px;
+}
+.placesAndDatesContainer {
+  display: flex;
+  flex-direction: column;
+}
+.placesContainer {
+  display: flex;
+  width: 100%;
+}
+.origin {
+  flex: 1;
+  margin: 0px 5px 0px 5px;
+}
+.destination {
+  flex: 1;
+  margin: 0px 5px 0px 5px;
+}
+
+/* React-select arranges */
+.css-yk16xz-control {
+  border: none !important;
+  border-radius: 0% !important;
+}
+.css-1okebmr-indicatorSeparator {
+  display: none;
+}
+.css-tj5bde-Svg {
+  color: transparent;
+  width: 20px;
+}
+
+.roundTripAndClassContainer {
+  display: flex;
+  height: 25px;
+  margin-bottom: 10px;
+}
+.roundTrip {
+  border: none;
+  background-color: white;
+  flex: 1;
+  margin-right: 2.5px;
+}
+.class {
+  border: none;
+  background-color: white;
+  flex: 1;
+  margin-left: 2.5px;
+}
+.scales {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  left: 180px;
+}
+.scales-info {
+  position: relative;
+  left: 56px;
+  width: 53px;
+}
+.searchButton {
+  background: rgb(170, 221, 253);
+  position: relative;
+  left: 136px;
+  top: -29px;
+  height: 70px;
+  width: 70px;
+  border-radius: 50%;
+  border: 1px solid white;
+  box-shadow: 1px 1px 1px black;
+  outline: none;
+  color: black;
+  font-weight: bold;
+}
+.searchButton:active {
+  animation-name: clickerino;
+  animation-duration: 1s;
+  animation-timing-function: linear;
+}
+.searchForm {
+  border: solid 1px white;
+  margin: 15px;
+  margin-bottom: -69px;
+  padding-bottom: 5px;
+}
+.search-form {
+  margin-bottom: -69px;
+}
+.search-results {
+  margin: 120px 0px 0px 15px;
+}
+.individual-result {
+  background-image: url("../img/resultado-ida2.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position-x: center;
+  background-position-y: center;
+
+  margin: 0px 15px 15px 0px;
+
+  animation-name: slideInFromLeft;
+  animation-duration: 3s;
+  animation-timing-function: ease-out;
+}
+.airline-logo {
+  border-radius: 25% 50% 50% 0%;
+  position: relative;
+  left: 179px;
+  top: 5px;
+  height: 78px;
+  width: 128px;
+}
+.ida {
+  width: 220px;
+  position: relative;
+  left: 89px;
+  top: 28px;
+  color: darkblue;
+}
+.vuelta {
+  width: 220px;
+  position: relative;
+  left: 87px;
+  top: 29px;
+  color: darkblue;
+}
+.escalas {
+  width: 220px;
+  position: relative;
+  left: 86px;
+  top: -97px;
+  color: darkblue;
+}
+.precio {
+  width: 220px;
+  position: relative;
+  left: 95px;
+  top: -93px;
+  color: darkblue;
+}
+.btn-ida {
+  position: relative;
+  top: -4px;
+  left: 98px;
+  background-color: transparent;
+  color: darkblue;
+  border: 1px solid darkblue;
+  box-shadow: -1px 1px 1px black;
+  outline: none;
+  font-weight: bold;
+}
+.btn-ida:active {
+  animation-name: clickerino;
+  animation-duration: 1s;
+  animation-timing-function: linear;
+}
+.info-selec {
+  width: 220px;
+  position: RELATIVE;
+  left: 118px;
+  top: -5px;
+  color: darkblue;
+  font-weight: bold;
+}
+
+@keyframes clickerino {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(0.78);
+  }
+}
+
+@keyframes slideInFromLeft {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@media all and (max-width: 767.5px) {
+  .datesContainer {
+    display: flex;
+    height: 38px;
+    margin-top: 10px;
+  }
+  input {
+    flex: 1;
+    border: none;
+    margin: 0px 5px 0px 5px;
+  }
+  .passenger-count {
+    display: flex;
+    margin: 0px 0px 5px 5px;
+  }
+  .passengerImg {
+    height: 24px;
+    width: 24px;
+  }
+  .passengers {
+    display: flex;
+    flex-direction: column;
+  }
+  .passengersAndScales {
+    display: flex;
+    margin-top: 10px;
+  }
+  .placesAndDatesContainer {
+    display: flex;
+    flex-direction: column;
+  }
+  .placesContainer {
+    display: flex;
+    width: 100%;
+  }
+  .origin {
+    flex: 1;
+    margin: 0px 5px 0px 5px;
+  }
+  .destination {
+    flex: 1;
+    margin: 0px 5px 0px 5px;
+  }
+
+  /* React-select arranges */
+  .css-yk16xz-control {
+    border: none !important;
+    border-radius: 0% !important;
+  }
+  .css-1okebmr-indicatorSeparator {
+    display: none;
+  }
+  .css-tj5bde-Svg {
+    color: transparent;
+    width: 20px;
+  }
+
+  .roundTripAndClassContainer {
+    display: flex;
+    height: 25px;
+    margin-bottom: 10px;
+  }
+  .roundTrip {
+    border: none;
+    background-color: white;
+    flex: 1;
+    margin-right: 2.5px;
+  }
+  .class {
+    border: none;
+    background-color: white;
+    flex: 1;
+    margin-left: 2.5px;
+  }
+  .scales {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    left: 180px;
+  }
+  .scales-info {
+    position: relative;
+    left: 56px;
+    width: 53px;
+  }
+  .searchButton {
+    background: rgb(170, 221, 253);
+    position: relative;
+    left: 136px;
+    top: -29px;
+    height: 70px;
+    width: 70px;
+    border-radius: 50%;
+    border: 1px solid white;
+    box-shadow: 1px 1px 1px black;
+    outline: none;
+    color: black;
+    font-weight: bold;
+  }
+  .searchButton:active {
+    animation-name: clickerino;
+    animation-duration: 1s;
+    animation-timing-function: linear;
+  }
+  .searchForm {
+    border: solid 1px white;
+    margin: 15px;
+    margin-bottom: -69px;
+    padding-bottom: 5px;
+  }
+  .search-form {
+    margin-bottom: -69px;
+  }
+  .search-results {
+    margin: 120px 0px 0px 15px;
+  }
+  .individual-result {
+    background-image: url("../img/resultado-ida2.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position-x: center;
+    background-position-y: center;
+
+    margin: 0px 15px 15px 0px;
+
+    animation-name: slideInFromLeft;
+    animation-duration: 3s;
+    animation-timing-function: ease-out;
+  }
+  .airline-logo {
+    border-radius: 25% 50% 50% 0%;
+    position: relative;
+    left: 179px;
+    top: 5px;
+    height: 78px;
+    width: 128px;
+  }
+  .ida {
+    width: 220px;
+    position: relative;
+    left: 89px;
+    top: 28px;
+    color: darkblue;
+  }
+  .vuelta {
+    width: 220px;
+    position: relative;
+    left: 87px;
+    top: 29px;
+    color: darkblue;
+  }
+  .escalas {
+    width: 220px;
+    position: relative;
+    left: 86px;
+    top: -97px;
+    color: darkblue;
+  }
+  .precio {
+    width: 220px;
+    position: relative;
+    left: 95px;
+    top: -93px;
+    color: darkblue;
+  }
+  .btn-ida {
+    position: relative;
+    top: -4px;
+    left: 98px;
+    background-color: transparent;
+    color: darkblue;
+    border: 1px solid darkblue;
+    box-shadow: -1px 1px 1px black;
+    outline: none;
+    font-weight: bold;
+  }
+  .btn-ida:active {
+    animation-name: clickerino;
+    animation-duration: 1s;
+    animation-timing-function: linear;
+  }
+  .info-selec {
+    width: 220px;
+    position: RELATIVE;
+    left: 118px;
+    top: -5px;
+    color: darkblue;
+    font-weight: bold;
+  }
+}
