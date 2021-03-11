@@ -26,13 +26,18 @@ input {
   display: flex;
   margin: 0px 0px 5px 5px;
 }
+.passenger-count > select {
+  width: 40px;
+  height: 40px;
+  align-self: flex-end;
+}
 .passengerImg {
-  height: 24px;
-  width: 24px;
+  height: 48px;
+  width: 48px;
 }
 .passengers {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
 }
 .passengersAndScales {
   display: flex;
@@ -87,22 +92,23 @@ input {
 }
 .scales {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   position: relative;
-  left: 180px;
+  left: 800px;
+  top: 16px;
 }
 .scales-info {
   position: relative;
-  left: 56px;
-  width: 53px;
+  left: 13px;
+  width: 42px;
 }
 .searchButton {
   background: rgb(170, 221, 253);
   position: relative;
-  left: 136px;
-  top: -29px;
-  height: 70px;
-  width: 70px;
+  left: 600px;
+  top: -20px;
+  height: 90px;
+  width: 90px;
   border-radius: 50%;
   border: 1px solid white;
   box-shadow: 1px 1px 1px black;
@@ -127,8 +133,8 @@ input {
 .search-results {
   margin: 120px 0px 0px 15px;
 }
-.individual-result {
-  background-image: url("../img/resultado-ida2.png");
+.individual-result-Outbound {
+  background-image: url("../img/resultado-ida1.png");
   background-size: contain;
   background-repeat: no-repeat;
   background-position-x: center;
@@ -140,46 +146,106 @@ input {
   animation-duration: 3s;
   animation-timing-function: ease-out;
 }
-.airline-logo {
+.individual-result-Inbound {
+  background-image: url("../img/resultado-vuelta1.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position-x: center;
+  background-position-y: center;
+
+  margin: 0px 15px 15px 0px;
+
+  animation-name: slideInFromRight;
+  animation-duration: 3s;
+  animation-timing-function: ease-out;
+}
+.airline-logo-Outbound {
   border-radius: 25% 50% 50% 0%;
   position: relative;
-  left: 179px;
-  top: 5px;
-  height: 78px;
-  width: 128px;
+  left: 979px;
+  top: 27px;
+  height: 100px;
+  width: 160px;
 }
-.ida {
+.airline-logo-Inbound {
+  border-radius: 50% 25% 0% 50%;
+  position: relative;
+  left: 139px;
+  top: 35px;
+  height: 100px;
+  width: 160px;
+}
+.ida-Outbound {
   width: 220px;
   position: relative;
-  left: 89px;
-  top: 28px;
+  left: 243px;
+  top: -59px;
   color: darkblue;
 }
-.vuelta {
+.ida-Inbound {
   width: 220px;
   position: relative;
-  left: 87px;
-  top: 29px;
+  left: 775px;
+  top: -59px;
   color: darkblue;
 }
-.escalas {
+.vuelta-Outbound {
   width: 220px;
   position: relative;
-  left: 86px;
-  top: -97px;
+  left: 243px;
+  top: -48px;
   color: darkblue;
 }
-.precio {
+.vuelta-Inbound {
   width: 220px;
   position: relative;
-  left: 95px;
-  top: -93px;
+  left: 775px;
+  top: -48px;
   color: darkblue;
 }
-.btn-ida {
+.escalas-Outbound {
+  width: 110px;
   position: relative;
-  top: -4px;
-  left: 98px;
+  left: 730px;
+  top: -86px;
+  color: darkblue;
+}
+.escalas-Inbound {
+  width: 110px;
+  position: relative;
+  left: 460px;
+  top: -85px;
+  color: darkblue;
+}
+.precio-Outbound {
+  width: 110px;
+  position: relative;
+  left: 730px;
+  top: -79px;
+  color: darkblue;
+}
+.precio-Inbound {
+  width: 110px;
+  position: relative;
+  left: 460px;
+  top: -78px;
+  color: darkblue;
+}
+.btn-select-Outbound {
+  position: relative;
+  top: -65px;
+  left: 180px;
+  background-color: transparent;
+  color: darkblue;
+  border: 1px solid darkblue;
+  box-shadow: -1px 1px 1px black;
+  outline: none;
+  font-weight: bold;
+}
+.btn-select-Inbound {
+  position: relative;
+  top: -65px;
+  left: 790px;
   background-color: transparent;
   color: darkblue;
   border: 1px solid darkblue;
@@ -194,9 +260,9 @@ input {
 }
 .info-selec {
   width: 220px;
-  position: RELATIVE;
-  left: 118px;
-  top: -5px;
+  position: relative;
+  left: 265px;
+  top: -72px;
   color: darkblue;
   font-weight: bold;
 }
@@ -219,6 +285,15 @@ input {
   }
 }
 
+@keyframes slideInFromRight {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
 @media all and (max-width: 767.5px) {
   .datesContainer {
     display: flex;
@@ -233,6 +308,10 @@ input {
   .passenger-count {
     display: flex;
     margin: 0px 0px 5px 5px;
+  }
+  .passenger-count > select {
+    width: 30px;
+    height: 24px;
   }
   .passengerImg {
     height: 24px;
@@ -298,6 +377,7 @@ input {
     flex-direction: column;
     position: relative;
     left: 180px;
+    top: 0px;
   }
   .scales-info {
     position: relative;
@@ -335,7 +415,7 @@ input {
   .search-results {
     margin: 120px 0px 0px 15px;
   }
-  .individual-result {
+  .individual-result-Outbound {
     background-image: url("../img/resultado-ida2.png");
     background-size: contain;
     background-repeat: no-repeat;
@@ -348,46 +428,84 @@ input {
     animation-duration: 3s;
     animation-timing-function: ease-out;
   }
-  .airline-logo {
+  .individual-result-Inbound {
+    background-image: url("../img/resultado-vuelta2.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position-x: center;
+    background-position-y: center;
+
+    margin: 0px 15px 15px 0px;
+
+    animation-name: slideInFromRight;
+    animation-duration: 3s;
+    animation-timing-function: ease-out;
+  }
+  .airline-logo-Outbound {
     border-radius: 25% 50% 50% 0%;
     position: relative;
-    left: 179px;
+    left: 178px;
     top: 5px;
     height: 78px;
     width: 128px;
   }
-  .ida {
+  .airline-logo-Inbound {
+    border-radius: 50% 25% 0% 50%;
+    position: relative;
+    left: 38px;
+    top: 4px;
+    height: 78px;
+    width: 128px;
+  }
+  .ida-Outbound,
+  .ida-Inbound {
     width: 220px;
     position: relative;
-    left: 89px;
+    left: 77px;
     top: 28px;
     color: darkblue;
   }
-  .vuelta {
+  .vuelta-Outbound,
+  .vuelta-Inbound {
     width: 220px;
     position: relative;
-    left: 87px;
+    left: 77px;
     top: 29px;
     color: darkblue;
   }
-  .escalas {
-    width: 220px;
+  .escalas-Outbound {
+    width: 110px;
     position: relative;
-    left: 86px;
+    left: 99px;
     top: -97px;
     color: darkblue;
   }
-  .precio {
-    width: 220px;
+  .escalas-Inbound {
+    width: 110px;
     position: relative;
-    left: 95px;
+    left: 183px;
+    top: -97px;
+    color: darkblue;
+  }
+  .precio-Outbound {
+    width: 110px;
+    position: relative;
+    left: 99px;
     top: -93px;
     color: darkblue;
   }
-  .btn-ida {
+  .precio-Inbound {
+    width: 110px;
+    position: relative;
+    left: 183px;
+    top: -93px;
+    color: darkblue;
+  }
+  .btn-select-Outbound,
+  .btn-select-Inbound {
     position: relative;
     top: -4px;
-    left: 98px;
+    left: 88px;
     background-color: transparent;
     color: darkblue;
     border: 1px solid darkblue;
@@ -395,7 +513,8 @@ input {
     outline: none;
     font-weight: bold;
   }
-  .btn-ida:active {
+  .btn-select-Outbound:active,
+  .btn-select-Inbound:active {
     animation-name: clickerino;
     animation-duration: 1s;
     animation-timing-function: linear;
@@ -403,7 +522,7 @@ input {
   .info-selec {
     width: 220px;
     position: RELATIVE;
-    left: 118px;
+    left: 105px;
     top: -5px;
     color: darkblue;
     font-weight: bold;
