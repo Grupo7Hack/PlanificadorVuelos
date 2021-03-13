@@ -8,7 +8,7 @@ export const Register = () => {
   const [password, setPassword] = useState("");
   const [rpassword, setRPassword] = useState("");
   // const [token, setToken] = useContext(AuthContext);
-  // const [token, setToken] = useLocalStorage("accessToken", "");
+  //   const [token, setToken] = useLocalStorage("accessToken", "");
   const [errorMsg, setErrorMsg] = useState("");
   const [okMsg, setOkMsg] = useState("");
   const expr = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;

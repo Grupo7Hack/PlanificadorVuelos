@@ -13,7 +13,7 @@ const {
 const schemaId = Joi.number().positive().required();
 
 const schema = Joi.object().keys({
-  name: Joi.string().min(3).max(20).optional(),
+  nombre: Joi.string().min(3).max(20).optional(),
   password: Joi.string().optional(),
   repeatPassword: Joi.string().optional(),
 });
@@ -25,8 +25,10 @@ const schemaPassword = Joi.object().keys({
 
 async function patchUser(req, res) {
   try {
-    const { id } = req.params;
+    const { id } = req.body;
     const idUser = parseInt(id);
+    console.log(id);
+    console.log("databody", req.body);
 
     await schemaId.validateAsync(idUser);
 
@@ -36,16 +38,22 @@ async function patchUser(req, res) {
       error.status = 400;
       throw error;
     }
+    console.log("userExists", userExists);
     let dataUser = {
       ...userExists,
     };
 
-    await schema.validateAsync(req.body);
-    const { name, password, repeatPassword } = req.body;
-    if (name) {
+    const nuevaData = {
+      nombre: req.body.nombre,
+      password: req.body.password,
+      repeatPassword: req.body.repeatPassword,
+    };
+    await schema.validateAsync(nuevaData);
+    const { nombre, password, repeatPassword } = req.body;
+    if (nombre) {
       dataUser = {
         ...dataUser,
-        nombre: name,
+        nombre: nombre,
       };
     }
 
@@ -62,6 +70,7 @@ async function patchUser(req, res) {
         contraseña: currentPassword,
       };
     }
+    console.log("dataantesupdate", dataUser);
     await updateUserByPatch(idUser, dataUser);
 
     res.status(200).send({ idUser, ...dataUser });

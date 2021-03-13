@@ -1,14 +1,12 @@
 import React, { useState, useContext } from "react";
 import { Redirect } from "react-router-dom";
-import { AuthContext } from "../../App";
-import { useLocalStorage } from "../useLocalStorage";
+import { AuthContext } from "../App";
 
 export const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [token, setToken] = useContext(AuthContext);
 
-  // const [token, setToken] = useLocalStorage("accessToken", "");
   const [errorMsg, setErrorMsg] = useState("");
   const [okMsg, setOkMsg] = useState("");
 
@@ -35,12 +33,12 @@ export const Login = () => {
     const token = await saveUser.json();
     if (saveUser.status === 200) {
       setToken(token.accessToken);
-      setOkMsg("Bienvenido");
+      setOkMsg("Bienvenido!!");
       setEmail("");
       setPassword("");
       setErrorMsg("");
     } else {
-      setErrorMsg("Error!!");
+      setErrorMsg(`Error: ${token.error}`);
       setEmail("");
       setPassword("");
     }
