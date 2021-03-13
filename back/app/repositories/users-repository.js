@@ -116,6 +116,13 @@ async function uploadUserImage(id, image) {
   return true;
 }
 
+async function validateActiveAccount(id) {
+  const pool = await database.getConnection();
+  const query = `SELECT * FROM activacion_usuarios WHERE id_usuario= ? and fecha_activacion IS NOT NULL`;
+  const [user] = await pool.query(query, id);
+  return user[0];
+}
+
 async function validateCodeActivation(code) {
   const now = new Date();
   const fechaDeActivacion = now
@@ -145,5 +152,6 @@ module.exports = {
   udpateDataUser,
   updateUserByPatch,
   uploadUserImage,
+  validateActiveAccount,
   validateCodeActivation,
 };

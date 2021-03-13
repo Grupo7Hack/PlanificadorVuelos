@@ -7,7 +7,7 @@ export const Profile = () => {
   const [token, setToken] = useContext(AuthContext);
 
   const [profileImage, setProfileImage] = useLocalStorage("imgProfile");
-  const [name, setName] = useLocalStorage("name");
+  const [inputname, setInputName] = useLocalStorage("name");
   const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
   const [rpassword, setRPassword] = useState("");
@@ -22,20 +22,24 @@ export const Profile = () => {
   const dataUser = JSON.parse(window.atob(base64));
   const { id, nombre, email, password, foto } = dataUser;
 
+  const [name, setName] = useState(nombre);
   if (userEmail === "") setUserEmail(email);
-  if (profileImage === "")
+  if (profileImage === "") {
     setProfileImage(`http://localhost:8088/images/profiles/${foto}`);
+  }
+  if (foto === "") {
+    setProfileImage(`http://localhost:8088/images/profiles/user.png`);
+  }
 
   const onFileChange = (e) => {
+    setOkMsg("");
     setFile(e.target.files[0]);
   };
 
   const eventName = (e) => {
-    if (name === "") {
-      setName(nombre);
-    } else {
-      setName(e.target.value);
-    }
+    setOkMsg("");
+    setName(e.target.value);
+    setInputName(e.target.value);
   };
 
   const eventEmail = (e) => {
@@ -102,10 +106,10 @@ export const Profile = () => {
       ...dataUser,
     };
 
-    if (name) {
+    if (inputname) {
       dataUserUpdate = {
         ...dataUserUpdate,
-        nombre: name,
+        nombre: inputname,
       };
     }
 
@@ -134,11 +138,13 @@ export const Profile = () => {
     const responseData = await uploadDataUser.json();
     const { nombre, foto } = responseData;
     setName(nombre);
+    setInputName(nombre);
     if (foto !== "undefined") {
       setProfileImage(`http://localhost:8088/images/profiles/${foto}`);
     }
     setUserPassword("");
     setRPassword("");
+    setOkMsg("Actualizado con exito");
     console.log("Respuesta update", responseData);
   };
 
@@ -182,7 +188,7 @@ export const Profile = () => {
             onBlur={eventValidarEmail}
             name="email"
             id="email"
-            required
+            disabled
           />
           <label htmlFor="password">Password: </label>
           <input

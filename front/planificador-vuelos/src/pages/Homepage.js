@@ -28,6 +28,8 @@ export const Homepage = () => {
     </div>
   );
 
+  const [token, setToken] = useLocalStorage("accessToken");
+
   const [roundTrip, setRoundTrip] = useState(initialDatePickers);
   const [origin] = useLocalStorage("origen");
   const [destination] = useLocalStorage("destino");

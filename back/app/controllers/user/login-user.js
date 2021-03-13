@@ -2,7 +2,10 @@
 const Joi = require("joi");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const { findUserByEmail } = require("../../repositories/users-repository");
+const {
+  findUserByEmail,
+  validateActiveAccount,
+} = require("../../repositories/users-repository");
 
 const schema = Joi.object().keys({
   email: Joi.string().email().required(),
@@ -29,7 +32,16 @@ async function login(req, res) {
       throw error;
     }
 
-    const jwtTokenExpiryTime = "180m";
+    // const validateActive = await validateActiveAccount(existUser.id);
+    // if (!validateActive) {
+    //   const error = new Error(
+    //     "Su cuenta no esta activada, verifique en su email y active su cuenta."
+    //   );
+    //   res.status(401);
+    //   throw error;
+    // }
+
+    const jwtTokenExpiryTime = "24h";
 
     const { id, nombre, role, foto } = existUser;
     const payload = { id, nombre, email, role, foto };

@@ -11,6 +11,7 @@ export const Login = () => {
   const [okMsg, setOkMsg] = useState("");
 
   const eventEmail = (e) => {
+    setErrorMsg("");
     setEmail(e.target.value);
   };
   const eventPass = (e) => {
@@ -71,6 +72,7 @@ export const Login = () => {
             id="pass"
             required
           />
+          <a href=""> Olvido Contraseña</a>
           <input type="submit" value="Enviar" />
         </fieldset>
       </form>
