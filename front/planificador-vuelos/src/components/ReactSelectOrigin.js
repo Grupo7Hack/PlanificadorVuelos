@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Select from "react-select";
 import { useRemotePlaces } from "../hooks/useRemotePlaces";
 import "../css/ReactSelect.css";
@@ -8,7 +8,9 @@ export const ReactSelectOrigin = () => {
   const [, setDestination] = useLocalStorage("origen");
   const [places] = useRemotePlaces();
 
-  const keysToKeep = ["nombre", "codigo_iata"];
+  const keysToKeep = ["Name", "Id"];
+
+  const airports = [].concat.apply([], places);
 
   const redux = (array) =>
     array.map((o) =>
@@ -18,14 +20,12 @@ export const ReactSelectOrigin = () => {
       }, {})
     );
 
-  const reduxedPlaces = redux(places);
+  const reduxedPlaces = redux(airports);
 
-  const placesForSelect = reduxedPlaces.map(
-    ({ nombre: label, codigo_iata: value }) => ({
-      label,
-      value,
-    })
-  );
+  const placesForSelect = reduxedPlaces.map(({ Name: label, Id: value }) => ({
+    label,
+    value,
+  }));
 
   const handleChange = (selectedOption) => {
     setDestination({ selectedOption });
@@ -34,12 +34,9 @@ export const ReactSelectOrigin = () => {
   return (
     <Select
       options={placesForSelect}
-      placeholder={
-        <div className="select-placeholder-text">
-          Seleccione aeropuerto de origen...
-        </div>
-      }
+      placeholder={<div className="select-placeholder-text">Origen...</div>}
       onChange={handleChange}
+      className="origin"
     />
   );
 };
