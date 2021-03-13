@@ -13,7 +13,6 @@ const validExtensions = [".jpeg", ".jpg", ".png"];
 async function uploadImage(req, res) {
   try {
     const { id } = req.auth;
-
     if (!req.files || Object.keys(req.files).length === 0) {
       const error = new Error("Ningún archivo fue cargado");
       error.status = 400;

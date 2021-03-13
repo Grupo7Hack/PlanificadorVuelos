@@ -12,6 +12,7 @@ const deleteUser = require("../controllers/user/delete-user");
 const uploadImage = require("../controllers/user/upload-image-user");
 
 const validateAuth = require("../middlewares/validate-authorization");
+const getUserProfile = require("../controllers/user/get-user-profile");
 
 const router = express.Router();
 
@@ -26,6 +27,7 @@ router.route("/activation").get((req, res) => activateCodeUser(req, res));
 router
   .route("/:id")
   .all(validateAuth)
+  .get((req, res) => getUserProfile(req, res))
   .put((req, res) => updateUser(req, res))
   .patch((req, res) => patchUser(req, res))
   .delete((req, res) => deleteUser(req, res));

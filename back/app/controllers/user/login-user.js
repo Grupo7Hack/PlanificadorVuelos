@@ -29,10 +29,10 @@ async function login(req, res) {
       throw error;
     }
 
-    const jwtTokenExpiryTime = "30m";
+    const jwtTokenExpiryTime = "180m";
 
-    const { id, nombre, role } = existUser;
-    const payload = { id, nombre, email, role };
+    const { id, nombre, role, foto } = existUser;
+    const payload = { id, nombre, email, role, foto };
 
     const jwtSecret = process.env.JWT_SECRET;
     const token = jwt.sign(payload, jwtSecret, {
