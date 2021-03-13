@@ -189,8 +189,8 @@ export const Homepage = () => {
             </div>
           </div>
           <div className="scales">
-            <div className="scales-info-0">
-              <label>Escalas:</label>
+            <label>Escalas:</label>
+            <div className="scales-info">
               <input
                 type="radio"
                 id="scales0"
@@ -297,7 +297,7 @@ export const Homepage = () => {
 
     if (pricesData.length < 1) {
       return (
-        <div>
+        <div className="all-container">
           {searchForm}
           <div>No existen vuelos, modifique los filtros.</div>
         </div>
@@ -306,7 +306,7 @@ export const Homepage = () => {
       let inboundOrOutbound = selectedOutboundFlight ? "Inbound" : "Outbound";
       let typeOfFlight = selectedOutboundFlight ? "vuelta" : "ida";
       return (
-        <div>
+        <div className="all-container">
           {searchForm}
           <div className="search-results">
             <div>
@@ -315,33 +315,39 @@ export const Homepage = () => {
                   key={selectedOutboundFlight}
                   className="individual-result-Outbound"
                 >
-                  <img
-                    src={selectedOutboundFlight.AirlineImageUrl}
-                    max-width="10px"
-                    alt="Airline Logo"
-                    className="airline-logo-Outbound"
-                  ></img>
-                  {/* <div>{selectedOutboundFlight.AirlineName}</div> */}
-                  <div className="ida-Outbound">
-                    {origin.selectedOption.value}:{" "}
-                    {new Date(
-                      Date.parse(selectedOutboundFlight[1].Departure)
-                    ).toLocaleString()}
+                  <div className="logo-Outbound-container">
+                    <img
+                      src={selectedOutboundFlight.AirlineImageUrl}
+                      max-width="10px"
+                      alt="Airline Logo"
+                      className="airline-logo-Outbound"
+                    ></img>
+                    {/* <div>{selectedOutboundFlight.AirlineName}</div> */}
                   </div>
-                  <div className="vuelta-Outbound">
-                    {destination.selectedOption.value}:{" "}
-                    {new Date(
-                      Date.parse(selectedOutboundFlight[1].Arrival)
-                    ).toLocaleString()}
+                  <div className="round-Outbound-container">
+                    <div className="info-selec">Vuelo de ida seleccionado</div>
+                    <div className="departure-Outbound">
+                      {origin.selectedOption.value}:{" "}
+                      {new Date(
+                        Date.parse(selectedOutboundFlight[1].Departure)
+                      ).toLocaleString()}
+                    </div>
+                    <div className="arrival-Outbound">
+                      {destination.selectedOption.value}:{" "}
+                      {new Date(
+                        Date.parse(selectedOutboundFlight[1].Arrival)
+                      ).toLocaleString()}
+                    </div>
+                    {/* <div>{selectedOutboundFlight[1].Duration} minutos de vuelo.</div> */}
+                    <div className="scalesAndPriceContainer">
+                      <div className="escalas-Outbound">
+                        Escalas: {selectedOutboundFlight[1].Stops.length}
+                      </div>
+                      <div className="precio-Outbound">
+                        Precio: {selectedOutboundFlight.Price}€
+                      </div>
+                    </div>
                   </div>
-                  {/* <div>{selectedOutboundFlight[1].Duration} minutos de vuelo.</div> */}
-                  <div className="escalas-Outbound">
-                    Escalas: {selectedOutboundFlight[1].Stops.length}
-                  </div>
-                  <div className="precio-Outbound">
-                    {selectedOutboundFlight.Price}€
-                  </div>
-                  <div className="info-selec">Vuelo de ida elegido</div>
                 </div>
               )}
             </div>
@@ -351,40 +357,51 @@ export const Homepage = () => {
                 let arrangedDepartureDate = new Date(departureDate);
                 let arrivalDate = Date.parse(result[1].Arrival);
                 let arrangedArrivalDate = new Date(arrivalDate);
+                let originAirport =
+                  inboundOrOutbound === "Outbound" ? origin : destination;
+                let destinationAirport =
+                  inboundOrOutbound === "Inbound" ? origin : destination;
+
                 return (
                   <div
                     key={index}
                     className={`individual-result-${inboundOrOutbound}`}
                   >
-                    <img
-                      src={result.AirlineImageUrl}
-                      max-width="10px"
-                      alt="Airline Logo"
-                      className={`airline-logo-${inboundOrOutbound}`}
-                    ></img>
-                    {/* <div>{result.AirlineName}</div> */}
-                    <div className={`ida-${inboundOrOutbound}`}>
-                      {origin.selectedOption.value}:{" "}
-                      {arrangedDepartureDate.toLocaleString()}
+                    <div className={`logo-${inboundOrOutbound}-container`}>
+                      <img
+                        src={result.AirlineImageUrl}
+                        max-width="10px"
+                        alt="Airline Logo"
+                        className={`airline-logo-${inboundOrOutbound}`}
+                      ></img>
+                      {/* <div>{result.AirlineName}</div> */}
                     </div>
-                    <div className={`vuelta-${inboundOrOutbound}`}>
-                      {destination.selectedOption.value}:{" "}
-                      {arrangedArrivalDate.toLocaleString()}
+                    <div className={`round-${inboundOrOutbound}-container`}>
+                      <div className={`departure-${inboundOrOutbound}`}>
+                        {originAirport.selectedOption.value}:{" "}
+                        {arrangedDepartureDate.toLocaleString()}
+                      </div>
+                      <div className={`arrival-${inboundOrOutbound}`}>
+                        {destinationAirport.selectedOption.value}:{" "}
+                        {arrangedArrivalDate.toLocaleString()}
+                      </div>
+                      {/* <div>{result[1].Duration} minutos de vuelo.</div> */}
+                      <div className="scalesAndPriceContainer">
+                        <div className={`escalas-${inboundOrOutbound}`}>
+                          Escalas: {result[1].Stops.length}
+                        </div>
+                        <div className={`precio-${inboundOrOutbound}`}>
+                          Precio: {result.Price}€
+                        </div>
+                      </div>
+                      <button
+                        onClick={flightSelectionHandler}
+                        id={index}
+                        className={`btn-select-${inboundOrOutbound}`}
+                      >
+                        Seleccionar vuelo de {typeOfFlight}
+                      </button>
                     </div>
-                    {/* <div>{result[1].Duration} minutos de vuelo.</div> */}
-                    <div className={`escalas-${inboundOrOutbound}`}>
-                      Escalas: {result[1].Stops.length}
-                    </div>
-                    <div className={`precio-${inboundOrOutbound}`}>
-                      {result.Price}€
-                    </div>
-                    <button
-                      onClick={flightSelectionHandler}
-                      id={index}
-                      className={`btn-select-${inboundOrOutbound}`}
-                    >
-                      Seleccionar vuelo de {typeOfFlight}
-                    </button>
                   </div>
                 );
               }
@@ -395,5 +412,5 @@ export const Homepage = () => {
     }
   }
 
-  return <div>{searchForm}</div>;
+  return <div className="all-container">{searchForm}</div>;
 };

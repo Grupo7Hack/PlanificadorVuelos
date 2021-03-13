@@ -1,39 +1,32 @@
 .navigation {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
 }
 
-.link-1 {
-  position: relative;
-  left: 300px;
-  top: 15px;
+.logoLink {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.link-2 {
-  position: relative;
-  left: -100px;
-  top: 15px;
+.noLogoLinks {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-nav > ul > li {
+nav > ul > div > li {
   list-style-type: none;
+  padding: 0px 15px;
 }
 
 /* Mobile (from 767.5 and down) */
 @media all and (max-width: 767.5px) {
-  .link-1 {
-    position: relative;
-    left: 6px;
-    top: 11px;
-  }
-  .link-2 {
-    position: relative;
-    left: -18px;
-    top: 11px;
-  }
   .logo {
-    position: relative;
     width: 98px;
-    left: -20px;
   }
 }

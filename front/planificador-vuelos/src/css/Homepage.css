@@ -12,6 +12,14 @@ body {
     );
 }
 
+.all-container {
+  margin: 0% 20% 0% 20%;
+  max-width: 1900px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+
 .datesContainer {
   display: flex;
   height: 38px;
@@ -42,6 +50,7 @@ input {
 .passengersAndScales {
   display: flex;
   margin-top: 10px;
+  justify-content: space-between;
 }
 .placesAndDatesContainer {
   display: flex;
@@ -82,30 +91,23 @@ input {
   border: none;
   background-color: white;
   flex: 1;
-  margin-right: 2.5px;
+  margin: 5px 5px 0px 5px;
 }
 .class {
   border: none;
   background-color: white;
   flex: 1;
-  margin-left: 2.5px;
+  margin: 5px 5px 0px 5px;
 }
 .scales {
   display: flex;
   flex-direction: row;
-  position: relative;
-  left: 800px;
-  top: 16px;
-}
-.scales-info {
-  position: relative;
-  left: 13px;
-  width: 42px;
+  margin-right: 1%;
+  align-items: center;
 }
 .searchButton {
   background: rgb(170, 221, 253);
   position: relative;
-  left: 600px;
   top: -20px;
   height: 90px;
   width: 90px;
@@ -140,7 +142,9 @@ input {
   background-position-x: center;
   background-position-y: center;
 
-  margin: 0px 15px 15px 0px;
+  height: 194px;
+  display: flex;
+  color: darkblue;
 
   animation-name: slideInFromLeft;
   animation-duration: 3s;
@@ -153,105 +157,66 @@ input {
   background-position-x: center;
   background-position-y: center;
 
-  margin: 0px 15px 15px 0px;
+  height: 194px;
+  display: flex;
+  color: darkblue;
 
   animation-name: slideInFromRight;
   animation-duration: 3s;
   animation-timing-function: ease-out;
 }
-.airline-logo-Outbound {
-  border-radius: 25% 50% 50% 0%;
-  position: relative;
-  left: 979px;
-  top: 27px;
-  height: 100px;
-  width: 160px;
+.logo-Outbound-container {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  padding: 0% 7% 2% 0%;
 }
+.logo-Inbound-container {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 0% 0% 2% 7%;
+}
+.round-Outbound-container {
+  display: flex;
+  flex: 1;
+  order: -1;
+
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+  padding: 0% 5% 2% 0%;
+}
+.round-Inbound-container {
+  display: flex;
+  flex: 1;
+
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+  padding: 0% 0% 2% 5%;
+}
+.airline-logo-Outbound,
 .airline-logo-Inbound {
-  border-radius: 50% 25% 0% 50%;
-  position: relative;
-  left: 139px;
-  top: 35px;
-  height: 100px;
-  width: 160px;
+  border-radius: 50%;
 }
-.ida-Outbound {
-  width: 220px;
-  position: relative;
-  left: 243px;
-  top: -59px;
-  color: darkblue;
+.scalesAndPriceContainer {
+  display: flex;
+  justify-content: space-evenly;
 }
-.ida-Inbound {
-  width: 220px;
-  position: relative;
-  left: 775px;
-  top: -59px;
-  color: darkblue;
-}
-.vuelta-Outbound {
-  width: 220px;
-  position: relative;
-  left: 243px;
-  top: -48px;
-  color: darkblue;
-}
-.vuelta-Inbound {
-  width: 220px;
-  position: relative;
-  left: 775px;
-  top: -48px;
-  color: darkblue;
-}
-.escalas-Outbound {
-  width: 110px;
-  position: relative;
-  left: 730px;
-  top: -86px;
-  color: darkblue;
-}
-.escalas-Inbound {
-  width: 110px;
-  position: relative;
-  left: 460px;
-  top: -85px;
-  color: darkblue;
-}
-.precio-Outbound {
-  width: 110px;
-  position: relative;
-  left: 730px;
-  top: -79px;
-  color: darkblue;
-}
-.precio-Inbound {
-  width: 110px;
-  position: relative;
-  left: 460px;
-  top: -78px;
-  color: darkblue;
-}
-.btn-select-Outbound {
-  position: relative;
-  top: -65px;
-  left: 180px;
-  background-color: transparent;
-  color: darkblue;
-  border: 1px solid darkblue;
-  box-shadow: -1px 1px 1px black;
-  outline: none;
-  font-weight: bold;
-}
+.btn-select-Outbound,
 .btn-select-Inbound {
-  position: relative;
-  top: -65px;
-  left: 790px;
   background-color: transparent;
   color: darkblue;
   border: 1px solid darkblue;
   box-shadow: -1px 1px 1px black;
   outline: none;
   font-weight: bold;
+  align-self: center;
 }
 .btn-ida:active {
   animation-name: clickerino;
@@ -259,11 +224,6 @@ input {
   animation-timing-function: linear;
 }
 .info-selec {
-  width: 220px;
-  position: relative;
-  left: 265px;
-  top: -72px;
-  color: darkblue;
   font-weight: bold;
 }
 
@@ -294,7 +254,14 @@ input {
   }
 }
 
-@media all and (max-width: 767.5px) {
+@media all and (max-width: 1024px) {
+  .all-container {
+    margin: 0% 5%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+  }
+
   .datesContainer {
     display: flex;
     height: 38px;
@@ -373,21 +340,18 @@ input {
     margin-left: 2.5px;
   }
   .scales {
+    padding-right: 5px;
     display: flex;
     flex-direction: column;
-    position: relative;
-    left: 180px;
-    top: 0px;
+    align-items: stretch;
+    justify-content: center;
   }
   .scales-info {
-    position: relative;
-    left: 56px;
-    width: 53px;
+    align-self: flex-start;
   }
   .searchButton {
     background: rgb(170, 221, 253);
     position: relative;
-    left: 136px;
     top: -29px;
     height: 70px;
     width: 70px;
@@ -413,7 +377,7 @@ input {
     margin-bottom: -69px;
   }
   .search-results {
-    margin: 120px 0px 0px 15px;
+    margin: 100px 0px 0px 15px;
   }
   .individual-result-Outbound {
     background-image: url("../img/resultado-ida2.png");
@@ -422,7 +386,11 @@ input {
     background-position-x: center;
     background-position-y: center;
 
-    margin: 0px 15px 15px 0px;
+    margin-top: 5%;
+    height: 194px;
+    display: flex;
+    flex-direction: column;
+    color: darkblue;
 
     animation-name: slideInFromLeft;
     animation-duration: 3s;
@@ -435,83 +403,70 @@ input {
     background-position-x: center;
     background-position-y: center;
 
-    margin: 0px 15px 15px 0px;
+    margin-top: 5%;
+    height: 194px;
+    display: flex;
+    flex-direction: column;
+    color: darkblue;
 
     animation-name: slideInFromRight;
     animation-duration: 3s;
     animation-timing-function: ease-out;
   }
+  .logo-Outbound-container {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    padding: 0% 40% 0% 40%;
+  }
+  .logo-Inbound-container {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 0% 40% 0% 40%;
+  }
+  .round-Outbound-container {
+    display: flex;
+    flex: 1;
+    order: 1;
+
+    flex-direction: column;
+    justify-content: center;
+    align-items: stretch;
+    padding: 3% 25% 0% 25%;
+  }
+  .round-Inbound-container {
+    display: flex;
+    flex: 1;
+
+    flex-direction: column;
+    justify-content: center;
+    align-items: stretch;
+    padding: 3% 25% 0% 25%;
+  }
   .airline-logo-Outbound {
-    border-radius: 25% 50% 50% 0%;
-    position: relative;
-    left: 178px;
-    top: 5px;
-    height: 78px;
-    width: 128px;
+    border-radius: 50%;
   }
   .airline-logo-Inbound {
-    border-radius: 50% 25% 0% 50%;
-    position: relative;
-    left: 38px;
-    top: 4px;
-    height: 78px;
-    width: 128px;
+    border-radius: 50%;
   }
-  .ida-Outbound,
-  .ida-Inbound {
-    width: 220px;
-    position: relative;
-    left: 77px;
-    top: 28px;
-    color: darkblue;
-  }
-  .vuelta-Outbound,
-  .vuelta-Inbound {
-    width: 220px;
-    position: relative;
-    left: 77px;
-    top: 29px;
-    color: darkblue;
-  }
-  .escalas-Outbound {
-    width: 110px;
-    position: relative;
-    left: 99px;
-    top: -97px;
-    color: darkblue;
-  }
-  .escalas-Inbound {
-    width: 110px;
-    position: relative;
-    left: 183px;
-    top: -97px;
-    color: darkblue;
-  }
-  .precio-Outbound {
-    width: 110px;
-    position: relative;
-    left: 99px;
-    top: -93px;
-    color: darkblue;
-  }
-  .precio-Inbound {
-    width: 110px;
-    position: relative;
-    left: 183px;
-    top: -93px;
-    color: darkblue;
+  .scalesAndPriceContainer {
+    display: flex;
+    justify-content: space-evenly;
   }
   .btn-select-Outbound,
   .btn-select-Inbound {
-    position: relative;
-    top: -4px;
-    left: 88px;
     background-color: transparent;
     color: darkblue;
     border: 1px solid darkblue;
     box-shadow: -1px 1px 1px black;
     outline: none;
     font-weight: bold;
+    align-self: center;
   }
   .btn-select-Outbound:active,
   .btn-select-Inbound:active {
@@ -520,11 +475,231 @@ input {
     animation-timing-function: linear;
   }
   .info-selec {
-    width: 220px;
-    position: RELATIVE;
-    left: 105px;
-    top: -5px;
+    font-weight: bold;
+  }
+}
+/* 767.5 */
+@media all and (max-width: 440px) {
+  .all-container {
+    margin: 0% 5%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .datesContainer {
+    display: flex;
+    height: 38px;
+    margin-top: 10px;
+  }
+  input {
+    flex: 1;
+    border: none;
+    margin: 0px 5px 0px 5px;
+  }
+  .passenger-count {
+    display: flex;
+    margin: 0px 0px 5px 5px;
+  }
+  .passenger-count > select {
+    width: 30px;
+    height: 24px;
+  }
+  .passengerImg {
+    height: 24px;
+    width: 24px;
+  }
+  .passengers {
+    display: flex;
+    flex-direction: column;
+  }
+  .passengersAndScales {
+    display: flex;
+    margin-top: 10px;
+  }
+  .placesAndDatesContainer {
+    display: flex;
+    flex-direction: column;
+  }
+  .placesContainer {
+    display: flex;
+    width: 100%;
+  }
+  .origin {
+    flex: 1;
+    margin: 0px 5px 0px 5px;
+  }
+  .destination {
+    flex: 1;
+    margin: 0px 5px 0px 5px;
+  }
+
+  /* React-select arranges */
+  .css-yk16xz-control {
+    border: none !important;
+    border-radius: 0% !important;
+  }
+  .css-1okebmr-indicatorSeparator {
+    display: none;
+  }
+  .css-tj5bde-Svg {
+    color: transparent;
+    width: 20px;
+  }
+
+  .roundTripAndClassContainer {
+    display: flex;
+    height: 25px;
+    margin-bottom: 10px;
+  }
+  .roundTrip {
+    border: none;
+    background-color: white;
+    flex: 1;
+    margin-right: 2.5px;
+  }
+  .class {
+    border: none;
+    background-color: white;
+    flex: 1;
+    margin-left: 2.5px;
+  }
+  .scales {
+    padding-right: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+  }
+  .scales-info {
+    align-self: flex-start;
+  }
+  .searchButton {
+    background: rgb(170, 221, 253);
+    position: relative;
+    top: -29px;
+    height: 70px;
+    width: 70px;
+    border-radius: 50%;
+    border: 1px solid white;
+    box-shadow: 1px 1px 1px black;
+    outline: none;
+    color: black;
+    font-weight: bold;
+  }
+  .searchButton:active {
+    animation-name: clickerino;
+    animation-duration: 1s;
+    animation-timing-function: linear;
+  }
+  .searchForm {
+    border: solid 1px white;
+    margin: 15px;
+    margin-bottom: -69px;
+    padding-bottom: 5px;
+  }
+  .search-form {
+    margin-bottom: -69px;
+  }
+  .search-results {
+    margin: 100px 0px 0px 15px;
+  }
+  .individual-result-Outbound {
+    background-image: url("../img/resultado-ida2.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position-x: center;
+    background-position-y: center;
+
+    margin-top: 5%;
+    height: 194px;
+    display: flex;
+    flex-direction: column;
     color: darkblue;
+
+    animation-name: slideInFromLeft;
+    animation-duration: 3s;
+    animation-timing-function: ease-out;
+  }
+  .individual-result-Inbound {
+    background-image: url("../img/resultado-vuelta2.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position-x: center;
+    background-position-y: center;
+
+    margin-top: 5%;
+    height: 194px;
+    display: flex;
+    flex-direction: column;
+    color: darkblue;
+
+    animation-name: slideInFromRight;
+    animation-duration: 3s;
+    animation-timing-function: ease-out;
+  }
+  .logo-Outbound-container {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    padding: 2% 7% 0% 0%;
+  }
+  .logo-Inbound-container {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 2% 0% 0% 7%;
+  }
+  .round-Outbound-container {
+    display: flex;
+    flex: 1;
+    order: 1;
+
+    flex-direction: column;
+    justify-content: center;
+    align-items: stretch;
+    padding: 5% 0% 0% 0%;
+  }
+  .round-Inbound-container {
+    display: flex;
+    flex: 1;
+
+    flex-direction: column;
+    justify-content: center;
+    align-items: stretch;
+    padding: 5% 0% 0% 0%;
+  }
+  .airline-logo-Outbound {
+    border-radius: 50%;
+  }
+  .airline-logo-Inbound {
+    border-radius: 50%;
+  }
+  .scalesAndPriceContainer {
+    display: flex;
+    justify-content: space-evenly;
+  }
+  .btn-select-Outbound,
+  .btn-select-Inbound {
+    background-color: transparent;
+    color: darkblue;
+    border: 1px solid darkblue;
+    box-shadow: -1px 1px 1px black;
+    outline: none;
+    font-weight: bold;
+    align-self: center;
+  }
+  .btn-select-Outbound:active,
+  .btn-select-Inbound:active {
+    animation-name: clickerino;
+    animation-duration: 1s;
+    animation-timing-function: linear;
+  }
+  .info-selec {
     font-weight: bold;
   }
 }

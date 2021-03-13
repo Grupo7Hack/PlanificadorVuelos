@@ -10,21 +10,25 @@ function App() {
       <div>
         <nav>
           <ul className="navigation">
-            <li>
-              <Link to="/">
-                <img src={logo} alt="Logo" width="140px" className="logo" />
-              </Link>
-            </li>
-            <li className="link-1">
-              <Link to="/register">Registro</Link>
-            </li>
-            <li className="link-2">
-              <Link to="/login">Iniciar sesión</Link>
-            </li>
-            {/* This will show only when logged in in another return */}
-            {/* <li>
+            <div className="logoLink">
+              <li>
+                <Link to="/">
+                  <img src={logo} alt="Logo" width="140px" className="logo" />
+                </Link>
+              </li>
+            </div>
+            <div className="noLogoLinks">
+              <li className="link-1">
+                <Link to="/register">Registro</Link>
+              </li>
+              <li className="link-2">
+                <Link to="/login">Iniciar sesión</Link>
+              </li>
+              {/* This will show only when logged in in another return */}
+              {/* <li>
               <Link to="/profile">Profile</Link>
             </li> */}
+            </div>
           </ul>
         </nav>
 
