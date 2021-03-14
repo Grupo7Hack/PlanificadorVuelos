@@ -41,6 +41,7 @@ export const Homepage = () => {
   const [infants, setInfants] = useState(0);
   const [maxStops, setMaxStops] = useState(0);
   const [searchResults, setSearchResults] = useState();
+  const [maxPrice, setMaxPrice] = useState(500);
   const [selectedOutboundFlight, setSelectedOutboundFlight] = useState();
   const [selectedInboundFlight, setSelectedInboundFlight] = useState();
 
@@ -98,6 +99,10 @@ export const Homepage = () => {
 
   function handleRadioButton2(e) {
     setMaxStops(e.target.value);
+  }
+
+  function handlePriceFilter(e) {
+    setMaxPrice(e.target.value);
   }
 
   const roundTripHandler = (e) => {
@@ -190,39 +195,55 @@ export const Homepage = () => {
               />
             </div>
           </div>
-          <div className="scales">
-            <label>Escalas:</label>
-            <div className="scales-info">
-              <input
-                type="radio"
-                id="scales0"
-                name="contact"
-                value="0"
-                defaultChecked="true"
-                onChange={handleRadioButton0}
-              ></input>
-              <label for="scales0">0</label>
+          <div className="scalesAndPrice">
+            <div className="scales">
+              <label>Escalas:</label>
+              <div className="scales-info">
+                <input
+                  type="radio"
+                  id="scales0"
+                  name="contact"
+                  value="0"
+                  defaultChecked="true"
+                  onChange={handleRadioButton0}
+                ></input>
+                <label for="scales0">0</label>
+              </div>
+              <div className="scales-info">
+                <input
+                  type="radio"
+                  id="scales1"
+                  name="contact"
+                  value="1"
+                  onChange={handleRadioButton1}
+                ></input>
+                <label for="scales1">1</label>
+              </div>
+              <div className="scales-info">
+                <input
+                  type="radio"
+                  id="scales2"
+                  name="contact"
+                  value="2"
+                  onChange={handleRadioButton2}
+                ></input>
+                <label for="scales2">2+</label>
+              </div>
             </div>
-            <div className="scales-info">
-              <input
-                type="radio"
-                id="scales1"
-                name="contact"
-                value="1"
-                onChange={handleRadioButton1}
-              ></input>
-              <label for="scales1">1</label>
-            </div>
-            <div className="scales-info">
-              <input
-                type="radio"
-                id="scales2"
-                name="contact"
-                value="2"
-                onChange={handleRadioButton2}
-              ></input>
-              <label for="scales2">2+</label>
-            </div>
+          </div>
+          <div className="PriceFilter">
+            Precio máximo:{" "}
+            <select onChange={handlePriceFilter}>
+              <option value="100">100€</option>
+              <option value="200">200€</option>
+              <option value="300">300€</option>
+              <option value="500" selected="selected">
+                500€
+              </option>
+              <option value="1000">1.000€</option>
+              <option value="2000">2.000€</option>
+              <option value="100000">{">"}2.000€</option>
+            </select>
           </div>
         </div>
         <button type="submit" className="searchButton">
@@ -354,7 +375,10 @@ export const Homepage = () => {
               )}
             </div>
             {arrangedResultsData.map((result, index) => {
-              if (result[1].Directionality === inboundOrOutbound) {
+              if (
+                result[1].Directionality === inboundOrOutbound &&
+                result.Price < maxPrice
+              ) {
                 let departureDate = Date.parse(result[1].Departure);
                 let arrangedDepartureDate = new Date(departureDate);
                 let arrivalDate = Date.parse(result[1].Arrival);
