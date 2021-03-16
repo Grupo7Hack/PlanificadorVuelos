@@ -12,7 +12,7 @@ body {
     );
 }
 
-.all-container {
+.contenido-princ {
   margin: 3% 20% 0% 20%;
   max-width: 1900px;
   text-align: center;
@@ -22,7 +22,9 @@ body {
 .profileImage {
   border-radius: 50%;
   max-width: 50%;
-  max-height: 160px;
+  height: 160px;
+  width: 160px;
+  object-fit: cover;
 }
 .userInfo {
   margin: 3% 0%;
@@ -32,6 +34,9 @@ body {
 }
 .userName {
   margin-top: 2%;
+}
+.userEmail {
+  margin-top: 0%;
 }
 .userName,
 .userEmail,

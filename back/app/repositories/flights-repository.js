@@ -95,7 +95,7 @@ function findOutboundFlights(
     });
 
     req.end(function (res) {
-      if (res) {
+      if (res.headers) {
         const code = res.headers.location.substring(65);
         resolve(retrieveData(code, maxStops));
       } else {
