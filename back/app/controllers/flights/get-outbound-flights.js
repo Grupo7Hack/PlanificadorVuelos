@@ -7,7 +7,7 @@ const {
 
 async function getFlights(req, res) {
   try {
-    const {
+    let {
       cabinclass,
       origin,
       destination,
@@ -18,6 +18,8 @@ async function getFlights(req, res) {
       infants,
       maxStops,
     } = req.params;
+
+    inboundDate = inboundDate === "0" ? "" : inboundDate;
 
     const flights = await findOutboundFlights(
       cabinclass,

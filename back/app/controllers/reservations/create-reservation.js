@@ -8,23 +8,22 @@ const reservationSchema = Joi.object().keys({
   origen: Joi.string().min(3).max(100).required(),
   destino: Joi.string().min(3).max(100).required(),
   fechaIda: Joi.date().required(),
-  fechaVuelta: Joi.date(),
+  fechaVuelta: Joi.date().allow(""),
   escalasIda: Joi.number(),
   escalasVuelta: Joi.number(),
   precio: Joi.number().required(),
   numAdultos: Joi.number().min(1).required(),
   numNinos: Joi.number(),
   numBebes: Joi.number(),
-  aerolineaIda: Joi.number().min(3).required(),
   aerolineaIda: Joi.string().required(),
-  aerolineaVuelta: Joi.string(),
+  aerolineaVuelta: Joi.string().allow(""),
 });
 
 async function createReservation(req, res) {
   try {
     const { id } = req.auth;
     await reservationSchema.validateAsync(req.body);
-    const {
+    let {
       origen,
       destino,
       fechaIda,
@@ -38,6 +37,8 @@ async function createReservation(req, res) {
       aerolineaIda,
       aerolineaVuelta,
     } = req.body;
+
+    fechaVuelta = fechaVuelta ? fechaVuelta : "1999-01-01 00:00:00";
 
     const existUser = await findUserById(id);
     const { nombre, email } = existUser;

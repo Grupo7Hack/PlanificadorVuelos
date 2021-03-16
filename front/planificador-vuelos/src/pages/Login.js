@@ -34,11 +34,11 @@ export const Login = () => {
     });
     const token = await saveUser.json();
     if (saveUser.status === 200) {
-      setToken(token.accessToken);
       setOkMsg("Bienvenido!!");
       setEmail("");
       setPassword("");
       setErrorMsg("");
+      setToken(token.accessToken);
     } else {
       setErrorMsg(`Error: ${token.error}`);
       setEmail("");

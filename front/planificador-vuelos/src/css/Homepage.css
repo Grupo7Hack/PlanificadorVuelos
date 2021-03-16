@@ -18,6 +18,7 @@ body {
   text-align: center;
   display: flex;
   flex-direction: column;
+  padding-bottom: 50px;
 }
 
 .datesContainer {
@@ -165,7 +166,7 @@ input {
   margin: 120px 0px 0px 15px;
 }
 .individual-result-Outbound {
-  background-image: url("../img/resultado-ida1.png");
+  background-image: url("../img/resultado-ida-des.png");
   background-size: contain;
   background-repeat: no-repeat;
   background-position-x: center;
@@ -180,7 +181,7 @@ input {
   animation-timing-function: ease-out;
 }
 .individual-result-Inbound {
-  background-image: url("../img/resultado-vuelta1.png");
+  background-image: url("../img/resultado-vuelta-des.png");
   background-size: contain;
   background-repeat: no-repeat;
   background-position-x: center;

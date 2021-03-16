@@ -55,6 +55,8 @@ export const Homepage = ({ origen, destino }) => {
   const handleSearch = (e) => {
     e.preventDefault();
 
+    const inboundDateChecked = inboundDate ? inboundDate : 0;
+
     setErrorMsg("");
     setOkMsg("");
 
@@ -67,7 +69,7 @@ export const Homepage = ({ origen, destino }) => {
     const iataOrigin = origin.selectedOption.value;
     const iataDestination = destination.selectedOption.value;
 
-    const url = `http://localhost:8088/api/v1/flights/${category}/${iataOrigin}/${iataDestination}/${outboundDate}/${inboundDate}/${adults}/${children}/${infants}/${maxStops}`;
+    const url = `http://localhost:8088/api/v1/flights/${category}/${iataOrigin}/${iataDestination}/${outboundDate}/${inboundDateChecked}/${adults}/${children}/${infants}/${maxStops}`;
     fetch(url, {
       method: "POST",
     })
@@ -225,7 +227,7 @@ export const Homepage = ({ origen, destino }) => {
                   defaultChecked="true"
                   onChange={handleRadioButton0}
                 ></input>
-                <label for="scales0">0</label>
+                <label htmlFor="scales0">0</label>
               </div>
               <div className="scales-info">
                 <input
@@ -235,7 +237,7 @@ export const Homepage = ({ origen, destino }) => {
                   value="1"
                   onChange={handleRadioButton1}
                 ></input>
-                <label for="scales1">1</label>
+                <label htmlFor="scales1">1</label>
               </div>
               <div className="scales-info">
                 <input
@@ -245,18 +247,16 @@ export const Homepage = ({ origen, destino }) => {
                   value="2"
                   onChange={handleRadioButton2}
                 ></input>
-                <label for="scales2">2+</label>
+                <label htmlFor="scales2">2+</label>
               </div>
             </div>
             <div className="priceFilter">
               Precio máximo:{" "}
-              <select onChange={handlePriceFilter}>
+              <select value={maxPrice} onChange={handlePriceFilter}>
                 <option value="100">100€</option>
                 <option value="200">200€</option>
                 <option value="300">300€</option>
-                <option value="500" selected="selected">
-                  500€
-                </option>
+                <option value="500">500€</option>
                 <option value="1000">1.000€</option>
                 <option value="2000">2.000€</option>
                 <option value="100000">{">"}2.000€</option>
@@ -264,13 +264,11 @@ export const Homepage = ({ origen, destino }) => {
             </div>
             <div className="durationFilter">
               Duración máxima:{" "}
-              <select onChange={handleDurationFilter}>
+              <select value={maxDuration} onChange={handleDurationFilter}>
                 <option value="60">1 hora</option>
                 <option value="120">2 horas</option>
                 <option value="180">3 horas</option>
-                <option value="300" selected="selected">
-                  5 horas
-                </option>
+                <option value="300">5 horas</option>
                 <option value="600">10 horas</option>
                 <option value="1200">20 horas</option>
                 <option value="100000">{">"}20 horas</option>
@@ -285,73 +283,43 @@ export const Homepage = ({ origen, destino }) => {
     </div>
   );
 
-  const makeReservation = async () => {
+  const makeReservation = async (outb, inb) => {
     const url = "http://localhost:8088/api/v1/reservation/";
-    if (selectedInboundFlight) {
-      const data = {
-        origen: originFR.selectedOption.label,
-        destino: destinationFR.selectedOption.label,
-        fechaIda: selectedOutboundFlight[1].Departure,
-        fechaVuelta: selectedInboundFlight[1].Departure,
-        escalasIda: selectedOutboundFlight[1].Stops.length,
-        escalasVuelta: selectedInboundFlight[1].Stops.length,
-        precio: selectedOutboundFlight.Price + selectedInboundFlight.Price,
-        numAdultos: adults,
-        numNinos: children,
-        numBebes: infants,
-        aerolineaIda: selectedOutboundFlight.AirlineName,
-        aerolineaVuelta: selectedInboundFlight.AirlineName,
-      };
 
-      const saveReservation = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(data),
-      });
-      if (saveReservation.status === 201) {
-        setErrorMsg("");
-        setOkMsg(
-          `Reserva realizada con éxito, se han enviado los datos de la misma a su correo electrónico.`
-        );
-      } else {
-        setOkMsg("");
-        setErrorMsg("Error al realizar la reserva");
-      }
+    const data = {
+      origen: originFR.selectedOption.label,
+      destino: destinationFR.selectedOption.label,
+      fechaIda: outb[1].Departure,
+      fechaVuelta: inb ? inb[1].Departure : "",
+      escalasIda: outb[1].Stops.length,
+      escalasVuelta: inb ? inb[1].Stops.length : 0,
+      precio: outb.Price + (inb ? inb.Price : 0),
+      numAdultos: adults,
+      numNinos: children,
+      numBebes: infants,
+      aerolineaIda: outb.AirlineName,
+      aerolineaVuelta: inb ? inb.AirlineName : "",
+    };
+
+    const saveReservation = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(data),
+    });
+    // const result = saveReservation.json();
+    if (saveReservation.status === 201) {
+      setErrorMsg("");
+      setOkMsg(
+        `Reserva realizada con éxito, se han enviado los datos de la misma a su correo electrónico.`
+      );
+      // setSelectedOutboundFlight();
+      // setSelectedInboundFlight();
     } else {
-      const savedReservation = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: {
-          origen: originFR.selectedOption.label,
-          destino: destinationFR.selectedOption.label,
-          fechaIda: new Date(
-            Date.parse(selectedOutboundFlight[1].Departure)
-          ).toLocaleString(),
-          fechaVuelta: "",
-          escalasIda: selectedOutboundFlight[1].Stops.length,
-          escalasVuelta: "",
-          precio: selectedOutboundFlight.Price,
-          numAdultos: adults,
-          numNinos: children,
-          numBebes: infants,
-          aerolineaIda: selectedOutboundFlight.AirlineName,
-          aerolineaVuelta: "",
-        },
-      });
-      const result = savedReservation.json();
-      if (result.status === 201) {
-        setOkMsg(
-          `Reserva realizada con éxito, se hah enviado los datos de la misma a su correo electrónico.`
-        );
-      } else {
-        setErrorMsg("Error al realizar la reserva");
-      }
+      setOkMsg("");
+      setErrorMsg("Error al realizar la reserva");
     }
   };
 
@@ -363,9 +331,8 @@ export const Homepage = ({ origen, destino }) => {
       const numberOfButton = e.target.id;
       const inboundFlightToSelect = arrangedResultsData[numberOfButton];
       setSelectedInboundFlight(inboundFlightToSelect);
-
       if (token) {
-        await makeReservation();
+        makeReservation(selectedOutboundFlight, inboundFlightToSelect);
       } else {
         window.prompt(
           "Por favor regístrese o inicie sesión para efectúar una reserva."
@@ -378,7 +345,10 @@ export const Homepage = ({ origen, destino }) => {
         setSelectedOutboundFlight(outboundFlightToSelect);
       } else {
         if (token) {
-          await makeReservation();
+          const numberOfButton = e.target.id;
+          const outboundFlightToSelect = arrangedResultsData[numberOfButton];
+          setSelectedOutboundFlight(outboundFlightToSelect);
+          makeReservation(outboundFlightToSelect);
         } else {
           window.prompt(
             "Por favor regístrese o inicie sesión para efectúar una reserva."

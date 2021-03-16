@@ -150,7 +150,7 @@ export const Profile = () => {
   const homepage = !token ? (
     <Redirect to="login" />
   ) : (
-    <div className="all-container">
+    <div className="contenido-princ">
       {profileImage && (
         <div>
           <img src={profileImage} alt="imagen" className="profileImage"></img>
