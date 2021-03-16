@@ -1,0 +1,115 @@
+html {
+  height: 100%;
+}
+
+body {
+  background: rgb(135, 206, 250);
+  background: no-repeat
+    linear-gradient(
+      180deg,
+      rgba(135, 206, 250, 1) 0%,
+      rgba(255, 255, 255, 1) 100%
+    );
+}
+
+.cont_ppal {
+  margin: 3% 30% 0% 30%;
+  max-width: 1900px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+.profileImage {
+  border-radius: 50%;
+  max-width: 50%;
+  max-height: 160px;
+}
+.userInfo {
+  margin: 3% 0%;
+  border: none;
+  display: flex;
+  flex-direction: column;
+}
+.userEmail {
+  margin-top: 2%;
+}
+.userEmail,
+.userPass,
+.userRPass {
+  display: flex;
+  height: 10%;
+  padding-bottom: 2%;
+}
+.recPass {
+  align-self: flex-end;
+}
+.submitButton {
+  background: rgb(203, 235, 255);
+  position: relative;
+  top: -20px;
+  height: 90px;
+  width: 90px;
+  border-radius: 50%;
+  border: 1px solid white;
+  box-shadow: 1px 1px 1px black;
+  outline: none;
+  color: black;
+  font-weight: bold;
+  white-space: normal;
+}
+.submitButton:active {
+  animation-name: clickerino;
+  animation-duration: 1s;
+  animation-timing-function: linear;
+}
+
+@keyframes clickerino {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(0.78);
+  }
+}
+
+@media all and (max-width: 600px) {
+  .cont_ppal {
+    margin: 3% 20% 0% 20%;
+    max-width: 1900px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+  }
+  .userName,
+  .userEmail,
+  .userPass,
+  .userRPass {
+    display: flex;
+    flex-direction: column;
+    height: 10%;
+    padding-bottom: 2%;
+  }
+  .submitButton {
+    height: 75px;
+    width: 75px;
+    margin-top: 3%;
+  }
+}
+
+@media all and (max-width: 340px) {
+  .cont_ppal {
+    margin: 3% 10% 0% 10%;
+    max-width: 1900px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+  }
+  .fileInput {
+    max-width: 50%;
+  }
+  .submitButton {
+    height: 65px;
+    width: 65px;
+    margin-top: 5%;
+  }
+}

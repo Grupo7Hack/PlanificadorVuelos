@@ -116,10 +116,8 @@ function retrieveData(code, maxStops) {
       req.end(function (response) {
         if (response) {
           if (response.body.Status === "UpdatesPending") {
-            console.log(response.body.Status);
             resolve(retrieveData(code, maxStops));
           } else {
-            console.log(response.body.Status);
             resolve(response);
           }
         } else {

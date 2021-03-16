@@ -7,7 +7,7 @@ import adultImg from "../img/adult.png";
 import kidImg from "../img/kid.png";
 import babyImg from "../img/baby.png";
 
-export const Homepage = () => {
+export const Homepage = ({ origen, destino }) => {
   let initialDatePickers = (
     <div className="datesContainer">
       <input
@@ -28,11 +28,13 @@ export const Homepage = () => {
     </div>
   );
 
-  const [token, setToken] = useLocalStorage("accessToken");
+  const [token] = useLocalStorage("accessToken");
 
   const [roundTrip, setRoundTrip] = useState(initialDatePickers);
-  const [origin] = useLocalStorage("origen");
-  const [destination] = useLocalStorage("destino");
+  const [origin] = origen;
+  const [destination] = destino;
+  const [originFR, setOriginFR] = useState({});
+  const [destinationFR, setDestinationFR] = useState({});
   const [category, setCategory] = useState("Economy");
   const [outboundDate, setOutboundDate] = useState("");
   const [inboundDate, setInboundDate] = useState("");
@@ -40,15 +42,27 @@ export const Homepage = () => {
   const [children, setChildren] = useState(0);
   const [infants, setInfants] = useState(0);
   const [maxStops, setMaxStops] = useState(0);
-  const [searchResults, setSearchResults] = useState();
   const [maxPrice, setMaxPrice] = useState(500);
+  const [maxDuration, setMaxDuration] = useState(300);
+  const [searchResults, setSearchResults] = useState();
   const [selectedOutboundFlight, setSelectedOutboundFlight] = useState();
   const [selectedInboundFlight, setSelectedInboundFlight] = useState();
+  const [okMsg, setOkMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
 
   let arrangedResultsData = [];
 
   const handleSearch = (e) => {
     e.preventDefault();
+
+    setErrorMsg("");
+    setOkMsg("");
+
+    setSelectedOutboundFlight();
+    setSelectedInboundFlight();
+
+    setOriginFR(origin);
+    setDestinationFR(destination);
 
     const iataOrigin = origin.selectedOption.value;
     const iataDestination = destination.selectedOption.value;
@@ -105,6 +119,10 @@ export const Homepage = () => {
     setMaxPrice(e.target.value);
   }
 
+  function handleDurationFilter(e) {
+    setMaxDuration(e.target.value);
+  }
+
   const roundTripHandler = (e) => {
     if (e.target.value === "Ida y vuelta") {
       setRoundTrip(initialDatePickers);
@@ -149,8 +167,8 @@ export const Homepage = () => {
         </div>
         <div className="placesAndDatesContainer">
           <div className="placesContainer">
-            <ReactSelectOrigin></ReactSelectOrigin>
-            <ReactSelectDestination></ReactSelectDestination>
+            <ReactSelectOrigin origen={origen}></ReactSelectOrigin>
+            <ReactSelectDestination destino={destino}></ReactSelectDestination>
           </div>
           {roundTrip}
         </div>
@@ -195,7 +213,7 @@ export const Homepage = () => {
               />
             </div>
           </div>
-          <div className="scalesAndPrice">
+          <div className="priceDurationAndScales">
             <div className="scales">
               <label>Escalas:</label>
               <div className="scales-info">
@@ -230,20 +248,34 @@ export const Homepage = () => {
                 <label for="scales2">2+</label>
               </div>
             </div>
-          </div>
-          <div className="PriceFilter">
-            Precio máximo:{" "}
-            <select onChange={handlePriceFilter}>
-              <option value="100">100€</option>
-              <option value="200">200€</option>
-              <option value="300">300€</option>
-              <option value="500" selected="selected">
-                500€
-              </option>
-              <option value="1000">1.000€</option>
-              <option value="2000">2.000€</option>
-              <option value="100000">{">"}2.000€</option>
-            </select>
+            <div className="priceFilter">
+              Precio máximo:{" "}
+              <select onChange={handlePriceFilter}>
+                <option value="100">100€</option>
+                <option value="200">200€</option>
+                <option value="300">300€</option>
+                <option value="500" selected="selected">
+                  500€
+                </option>
+                <option value="1000">1.000€</option>
+                <option value="2000">2.000€</option>
+                <option value="100000">{">"}2.000€</option>
+              </select>
+            </div>
+            <div className="durationFilter">
+              Duración máxima:{" "}
+              <select onChange={handleDurationFilter}>
+                <option value="60">1 hora</option>
+                <option value="120">2 horas</option>
+                <option value="180">3 horas</option>
+                <option value="300" selected="selected">
+                  5 horas
+                </option>
+                <option value="600">10 horas</option>
+                <option value="1200">20 horas</option>
+                <option value="100000">{">"}20 horas</option>
+              </select>
+            </div>
           </div>
         </div>
         <button type="submit" className="searchButton">
@@ -253,27 +285,106 @@ export const Homepage = () => {
     </div>
   );
 
-  const flightSelectionHandler = (e) => {
+  const makeReservation = async () => {
+    const url = "http://localhost:8088/api/v1/reservation/";
+    if (selectedInboundFlight) {
+      const data = {
+        origen: originFR.selectedOption.label,
+        destino: destinationFR.selectedOption.label,
+        fechaIda: selectedOutboundFlight[1].Departure,
+        fechaVuelta: selectedInboundFlight[1].Departure,
+        escalasIda: selectedOutboundFlight[1].Stops.length,
+        escalasVuelta: selectedInboundFlight[1].Stops.length,
+        precio: selectedOutboundFlight.Price + selectedInboundFlight.Price,
+        numAdultos: adults,
+        numNinos: children,
+        numBebes: infants,
+        aerolineaIda: selectedOutboundFlight.AirlineName,
+        aerolineaVuelta: selectedInboundFlight.AirlineName,
+      };
+
+      const saveReservation = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(data),
+      });
+      if (saveReservation.status === 201) {
+        setErrorMsg("");
+        setOkMsg(
+          `Reserva realizada con éxito, se han enviado los datos de la misma a su correo electrónico.`
+        );
+      } else {
+        setOkMsg("");
+        setErrorMsg("Error al realizar la reserva");
+      }
+    } else {
+      const savedReservation = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: {
+          origen: originFR.selectedOption.label,
+          destino: destinationFR.selectedOption.label,
+          fechaIda: new Date(
+            Date.parse(selectedOutboundFlight[1].Departure)
+          ).toLocaleString(),
+          fechaVuelta: "",
+          escalasIda: selectedOutboundFlight[1].Stops.length,
+          escalasVuelta: "",
+          precio: selectedOutboundFlight.Price,
+          numAdultos: adults,
+          numNinos: children,
+          numBebes: infants,
+          aerolineaIda: selectedOutboundFlight.AirlineName,
+          aerolineaVuelta: "",
+        },
+      });
+      const result = savedReservation.json();
+      if (result.status === 201) {
+        setOkMsg(
+          `Reserva realizada con éxito, se hah enviado los datos de la misma a su correo electrónico.`
+        );
+      } else {
+        setErrorMsg("Error al realizar la reserva");
+      }
+    }
+  };
+
+  const flightSelectionHandler = async (e) => {
+    e.preventDefault();
     let inboundOrOutbound = selectedOutboundFlight ? "Inbound" : "Outbound";
 
     if (inboundOrOutbound === "Inbound") {
       const numberOfButton = e.target.id;
       const inboundFlightToSelect = arrangedResultsData[numberOfButton];
       setSelectedInboundFlight(inboundFlightToSelect);
-      console.log(selectedInboundFlight);
 
-      // Si el usuario está logueado:
-      // Llamar a una función que pida confirmación
-      // y haga la reserva.
-
-      // Si no hay login:
-      // Llamar a una función que indique que
-      // debe loguearse o registrarse.
+      if (token) {
+        await makeReservation();
+      } else {
+        window.prompt(
+          "Por favor regístrese o inicie sesión para efectúar una reserva."
+        );
+      }
     } else {
-      const numberOfButton = e.target.id;
-      const outboundFlightToSelect = arrangedResultsData[numberOfButton];
-      setSelectedOutboundFlight(outboundFlightToSelect);
-      console.log(selectedOutboundFlight);
+      if (inboundDate) {
+        const numberOfButton = e.target.id;
+        const outboundFlightToSelect = arrangedResultsData[numberOfButton];
+        setSelectedOutboundFlight(outboundFlightToSelect);
+      } else {
+        if (token) {
+          await makeReservation();
+        } else {
+          window.prompt(
+            "Por favor regístrese o inicie sesión para efectúar una reserva."
+          );
+        }
+      }
     }
   };
 
@@ -321,8 +432,10 @@ export const Homepage = () => {
     if (pricesData.length < 1) {
       return (
         <div className="all-container">
+          <span style={{ backgroundColor: "red" }}>
+            No existen vuelos, modifique los filtros.
+          </span>
           {searchForm}
-          <div>No existen vuelos, modifique los filtros.</div>
         </div>
       );
     } else {
@@ -330,6 +443,10 @@ export const Homepage = () => {
       let typeOfFlight = selectedOutboundFlight ? "vuelta" : "ida";
       return (
         <div className="all-container">
+          {errorMsg && (
+            <span style={{ backgroundColor: "red" }}>{errorMsg}</span>
+          )}
+          {okMsg && <span style={{ backgroundColor: "pink" }}>{okMsg}</span>}
           {searchForm}
           <div className="search-results">
             <div>
@@ -361,7 +478,6 @@ export const Homepage = () => {
                         Date.parse(selectedOutboundFlight[1].Arrival)
                       ).toLocaleString()}
                     </div>
-                    {/* <div>{selectedOutboundFlight[1].Duration} minutos de vuelo.</div> */}
                     <div className="scalesAndPriceContainer">
                       <div className="escalas-Outbound">
                         Escalas: {selectedOutboundFlight[1].Stops.length}
@@ -377,16 +493,17 @@ export const Homepage = () => {
             {arrangedResultsData.map((result, index) => {
               if (
                 result[1].Directionality === inboundOrOutbound &&
-                result.Price < maxPrice
+                result.Price < maxPrice &&
+                result[1].Duration < maxDuration
               ) {
                 let departureDate = Date.parse(result[1].Departure);
                 let arrangedDepartureDate = new Date(departureDate);
                 let arrivalDate = Date.parse(result[1].Arrival);
                 let arrangedArrivalDate = new Date(arrivalDate);
                 let originAirport =
-                  inboundOrOutbound === "Outbound" ? origin : destination;
+                  inboundOrOutbound === "Outbound" ? originFR : destinationFR;
                 let destinationAirport =
-                  inboundOrOutbound === "Inbound" ? origin : destination;
+                  inboundOrOutbound === "Inbound" ? originFR : destinationFR;
 
                 return (
                   <div
@@ -411,7 +528,6 @@ export const Homepage = () => {
                         {destinationAirport.selectedOption.value}:{" "}
                         {arrangedArrivalDate.toLocaleString()}
                       </div>
-                      {/* <div>{result[1].Duration} minutos de vuelo.</div> */}
                       <div className="scalesAndPriceContainer">
                         <div className={`escalas-${inboundOrOutbound}`}>
                           Escalas: {result[1].Stops.length}

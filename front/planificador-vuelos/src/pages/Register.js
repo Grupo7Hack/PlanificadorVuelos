@@ -1,4 +1,5 @@
 import React, { useState, useContext } from "react";
+import "../css/Register.css";
 // import { AuthContext } from "../../App";
 // import { useLocalStorage } from "../useLocalStorage";
 
@@ -97,49 +98,57 @@ export const Register = () => {
       {errorMsg && <span style={{ backgroundColor: "red" }}>{errorMsg}</span>}
       {okMsg && <span style={{ backgroundColor: "pink" }}>{okMsg}</span>}
       <form onSubmit={registerUser}>
-        <fieldset>
+        <fieldset className="userInfo">
           <legend>Registro</legend>
-          <label htmlFor="name">Nombre: </label>
-          <input
-            type="text"
-            value={name}
-            onChange={eventName}
-            name="name"
-            id="name"
-            required
-          />
-          <label htmlFor="email">Email: </label>
-          <input
-            type="email"
-            value={email}
-            onChange={eventEmail}
-            onBlur={eventValidarEmail}
-            name="email"
-            id="email"
-            required
-          />
-          <label htmlFor="password">Password: </label>
-          <input
-            type="password"
-            value={password}
-            onChange={eventPass}
-            onKeyUp={eventValidarPass}
-            name="pass"
-            id="pass"
-            required
-          />
-          <label htmlFor="password">Repetir Password: </label>
-          <input
-            type="password"
-            value={rpassword}
-            onChange={eventRPass}
-            onKeyUp={eventValidarRPass}
-            name="rpass"
-            id="rpass"
-            required
-          />
-          <input type="submit" value="Registrar" />
+          <div className="userName">
+            <label htmlFor="name">Nombre: </label>
+            <input
+              type="text"
+              value={name}
+              onChange={eventName}
+              name="name"
+              id="name"
+              required
+            />
+          </div>
+          <div className="userEmail">
+            <label htmlFor="email">Email: </label>
+            <input
+              type="email"
+              value={email}
+              onChange={eventEmail}
+              onBlur={eventValidarEmail}
+              name="email"
+              id="email"
+              required
+            />
+          </div>
+          <div className="userPass">
+            <label htmlFor="password">Password: </label>
+            <input
+              type="password"
+              value={password}
+              onChange={eventPass}
+              onKeyUp={eventValidarPass}
+              name="pass"
+              id="pass"
+              required
+            />
+          </div>
+          <div className="userRPass">
+            <label htmlFor="password">Repetir Password: </label>
+            <input
+              type="password"
+              value={rpassword}
+              onChange={eventRPass}
+              onKeyUp={eventValidarRPass}
+              name="rpass"
+              id="rpass"
+              required
+            />
+          </div>
         </fieldset>
+        <input type="submit" value="Enviar" className="submitButton" />
       </form>
     </div>
   );
