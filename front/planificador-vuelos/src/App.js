@@ -7,6 +7,7 @@ import { Login } from "./pages/Login";
 import { Logout } from "./pages/Logout";
 import { Profile } from "./pages/Profile";
 import { useLocalStorage } from "./components/useLocalStorage";
+import Footer from "./components/footer";
 import logo from "./img/logo.png";
 
 export const AuthContext = React.createContext();
@@ -22,13 +23,14 @@ const AuthProvider = (props) => {
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState("");
+  const [origin, setOrigin] = useState({});
+  const [destination, setDestination] = useState({});
 
   useEffect(() => {
     const interval = setInterval(() => {
       const tokencito = window.localStorage.getItem("accessToken")
         ? JSON.parse(window.localStorage.getItem("accessToken"))
         : false;
-      console.log(tokencito);
       setIsLoggedIn(tokencito);
     }, 1000);
 
@@ -75,7 +77,10 @@ function App() {
 
           <Switch>
             <Route exact path="/">
-              <Homepage />
+              <Homepage
+                origen={[origin, setOrigin]}
+                destino={[destination, setDestination]}
+              />
             </Route>
             <Route path="/login">
               <Login />
@@ -91,6 +96,7 @@ function App() {
             </Route>
           </Switch>
         </div>
+        <Footer />
       </Router>
     </AuthProvider>
   );

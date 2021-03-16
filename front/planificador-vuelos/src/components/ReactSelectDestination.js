@@ -2,10 +2,9 @@ import React from "react";
 import Select from "react-select";
 import { useRemotePlaces } from "../hooks/useRemotePlaces";
 import "../css/ReactSelect.css";
-import { useLocalStorage } from "../hooks/useLocalStorage";
 
-export const ReactSelectDestination = () => {
-  const [, setDestination] = useLocalStorage("destino");
+export const ReactSelectDestination = ({ destino }) => {
+  const [, setDestination] = destino;
   const [places] = useRemotePlaces();
 
   const keysToKeep = ["Name", "Id"];

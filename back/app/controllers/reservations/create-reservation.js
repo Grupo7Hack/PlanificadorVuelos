@@ -2,20 +2,22 @@
 const Joi = require("joi");
 const makeReservation = require("../../repositories/reservations-repository");
 const { sendEmailReservation } = require("../../helpers/mail-smtp");
-
 const { findUserById } = require("../../repositories/users-repository");
 
 const reservationSchema = Joi.object().keys({
-  origen: Joi.string().min(3).max(20).required(),
-  destino: Joi.string().min(3).max(20).required(),
+  origen: Joi.string().min(3).max(100).required(),
+  destino: Joi.string().min(3).max(100).required(),
   fechaIda: Joi.date().required(),
   fechaVuelta: Joi.date(),
-  escala: Joi.boolean(),
+  escalasIda: Joi.number(),
+  escalasVuelta: Joi.number(),
   precio: Joi.number().required(),
   numAdultos: Joi.number().min(1).required(),
   numNinos: Joi.number(),
   numBebes: Joi.number(),
-  aerolinea: Joi.number().min(3).required(),
+  aerolineaIda: Joi.number().min(3).required(),
+  aerolineaIda: Joi.string().required(),
+  aerolineaVuelta: Joi.string(),
 });
 
 async function createReservation(req, res) {
@@ -27,12 +29,14 @@ async function createReservation(req, res) {
       destino,
       fechaIda,
       fechaVuelta,
-      escala,
+      escalasIda,
+      escalasVuelta,
       precio,
       numAdultos,
       numNinos,
       numBebes,
-      aerolinea,
+      aerolineaIda,
+      aerolineaVuelta,
     } = req.body;
 
     const existUser = await findUserById(id);
@@ -50,15 +54,17 @@ async function createReservation(req, res) {
       destino,
       fechaIda,
       fechaVuelta,
-      escala,
+      escalasIda,
+      escalasVuelta,
       precio,
       numAdultos,
       numNinos,
       numBebes,
-      aerolinea,
+      aerolineaIda,
+      aerolineaVuelta,
     };
     const reservation = await makeReservation(id, dataReservation);
-    await sendEmailReservation(nombre, email, dataReservation);
+    // await sendEmailReservation(nombre, email, dataReservation);
 
     res.status(201).send({ id: reservation });
   } catch (err) {

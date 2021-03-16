@@ -1,5 +1,4 @@
 "use strict";
-const { number } = require("joi");
 const database = require("../infrastructure/database");
 
 async function makeReservation(userId, data) {
@@ -9,12 +8,14 @@ async function makeReservation(userId, data) {
     destino,
     fechaIda,
     fechaVuelta,
-    escala,
+    escalasIda,
+    escalasVuelta,
     precio,
     numAdultos,
     numNinos,
     numBebes,
-    aerolinea,
+    aerolineaIda,
+    aerolineaVuelta,
   } = data;
 
   const reservation = {
@@ -24,12 +25,14 @@ async function makeReservation(userId, data) {
     destino: destino,
     fecha_inicio: fechaIda,
     fecha_fin: fechaVuelta,
-    escalas: escala,
+    escalas_ida: escalasIda,
+    escalas_vuelta: escalasVuelta,
     precio: precio,
     num_adultos: numAdultos,
     num_ninos: numNinos,
     num_bebes: numBebes,
-    id_aerolinea: aerolinea,
+    aerolinea_ida: aerolineaIda,
+    aerolinea_vuelta: aerolineaVuelta,
   };
   const query = "INSERT INTO reservas SET ?";
   const [created] = await pool.query(query, reservation);

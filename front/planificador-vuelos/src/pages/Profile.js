@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import { Redirect } from "react-router-dom";
 import { AuthContext } from "../App";
 import { useLocalStorage } from "../hooks/useLocalStorage";
+import "../css/Profile.css";
 
 export const Profile = () => {
   const [token, setToken] = useContext(AuthContext);
@@ -97,7 +98,6 @@ export const Profile = () => {
     );
     const response = await uploadFile.json();
     setProfileImage(response.url);
-    // console.log("Respuesta", response, response.url);
   };
 
   const updateUser = async (e) => {
@@ -122,7 +122,6 @@ export const Profile = () => {
         };
       }
     }
-    console.log("data:", dataUserUpdate);
 
     const uploadDataUser = await fetch(
       `http://localhost:8088/api/v1/users/${id}`,
@@ -151,10 +150,10 @@ export const Profile = () => {
   const homepage = !token ? (
     <Redirect to="login" />
   ) : (
-    <div>
+    <div className="all-container">
       {profileImage && (
         <div>
-          <img src={profileImage} alt="imagen" width="150px"></img>
+          <img src={profileImage} alt="imagen" className="profileImage"></img>
         </div>
       )}
       {errorMsg && <span style={{ backgroundColor: "red" }}>{errorMsg}</span>}
@@ -162,54 +161,61 @@ export const Profile = () => {
 
       <form onSubmit={newFile}>
         <div>
-          <label>Seleccionar un archivo</label>
-          <input type="file" onChange={onFileChange} />
+          <input type="file" onChange={onFileChange} className="fileInput" />
+          <button type="submit">Actualizar</button>
         </div>
-        <button type="submit">Subir</button>
       </form>
 
       <form onSubmit={updateUser}>
-        <fieldset>
+        <fieldset className="userInfo">
           <legend>Datos Personales</legend>
-          <label htmlFor="name">Nombre: </label>
-          <input
-            type="text"
-            value={name}
-            onChange={eventName}
-            name="name"
-            id="name"
-            required
-          />
-          <label htmlFor="email">Email: </label>
-          <input
-            type="email"
-            value={userEmail}
-            onChange={eventEmail}
-            onBlur={eventValidarEmail}
-            name="email"
-            id="email"
-            disabled
-          />
-          <label htmlFor="password">Password: </label>
-          <input
-            type="password"
-            value={userPassword}
-            onChange={eventPass}
-            onKeyUp={eventValidarPass}
-            name="pass"
-            id="pass"
-          />
-          <label htmlFor="password">Repetir Password: </label>
-          <input
-            type="password"
-            value={rpassword}
-            onChange={eventRPass}
-            onKeyUp={eventValidarRPass}
-            name="rpass"
-            id="rpass"
-          />
-          <input type="submit" value="Guardar Cambios" />
+          <div className="userName">
+            <label htmlFor="name">Nombre: </label>
+            <input
+              type="text"
+              value={name}
+              onChange={eventName}
+              name="name"
+              id="name"
+              required
+            />
+          </div>
+          <div className="userEmail">
+            <label htmlFor="email">Email: </label>
+            <input
+              type="email"
+              value={userEmail}
+              onChange={eventEmail}
+              onBlur={eventValidarEmail}
+              name="email"
+              id="email"
+              disabled
+            />
+          </div>
+          <div className="userPass">
+            <label htmlFor="password">Contraseña: </label>
+            <input
+              type="password"
+              value={userPassword}
+              onChange={eventPass}
+              onKeyUp={eventValidarPass}
+              name="pass"
+              id="pass"
+            />
+          </div>
+          <div className="userRPass">
+            <label htmlFor="password">Repetir contraseña: </label>
+            <input
+              type="password"
+              value={rpassword}
+              onChange={eventRPass}
+              onKeyUp={eventValidarRPass}
+              name="rpass"
+              id="rpass"
+            />
+          </div>
         </fieldset>
+        <input type="submit" value="Guardar" className="submitButton" />
       </form>
     </div>
   );

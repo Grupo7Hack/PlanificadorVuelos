@@ -45,12 +45,13 @@ input {
 }
 .passengers {
   display: flex;
+  order: -2;
   flex-direction: row;
+  align-items: center;
 }
 .passengersAndScales {
   display: flex;
   margin-top: 10px;
-  justify-content: space-between;
 }
 .placesAndDatesContainer {
   display: flex;
@@ -99,11 +100,39 @@ input {
   flex: 1;
   margin: 5px 5px 0px 5px;
 }
+.scalesAndPrice {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.priceDurationAndScales {
+  order: -1;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-right: 1%;
+}
+.priceFilter {
+  margin-bottom: 2%;
+}
+.priceFilter > select {
+  border: none;
+  background-color: white;
+}
+.durationFilter {
+  order: -1;
+  margin-bottom: 2%;
+}
+.durationFilter > select {
+  border: none;
+  background-color: white;
+}
 .scales {
   display: flex;
-  flex-direction: row;
-  margin-right: 1%;
-  align-items: center;
+  order: 1;
+  margin-right: 5px;
+  align-items: flex-start;
 }
 .searchButton {
   background: rgb(170, 221, 253);
@@ -342,7 +371,6 @@ input {
   .scales {
     padding-right: 5px;
     display: flex;
-    flex-direction: column;
     align-items: stretch;
     justify-content: center;
   }
@@ -563,6 +591,7 @@ input {
     background-color: white;
     flex: 1;
     margin-left: 2.5px;
+    width: 50%;
   }
   .scales {
     padding-right: 5px;

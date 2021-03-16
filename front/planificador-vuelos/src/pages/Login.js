@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import { Redirect } from "react-router-dom";
 import { AuthContext } from "../App";
+import "../css/Login.css";
 
 export const Login = () => {
   const [email, setEmail] = useState("");
@@ -52,29 +53,35 @@ export const Login = () => {
       {errorMsg && <span style={{ backgroundColor: "red" }}>{errorMsg}</span>}
       {okMsg && <span style={{ backgroundColor: "pink" }}>{okMsg}</span>}
       <form onSubmit={loginUser}>
-        <fieldset>
+        <fieldset className="userInfo">
           <legend>Login</legend>
-          <label htmlFor="email">Email: </label>
-          <input
-            type="email"
-            value={email}
-            onChange={eventEmail}
-            name="email"
-            id="email"
-            required
-          />
-          <label htmlFor="password">Password: </label>
-          <input
-            type="password"
-            value={password}
-            onChange={eventPass}
-            name="pass"
-            id="pass"
-            required
-          />
-          <a href=""> Olvido Contraseña</a>
-          <input type="submit" value="Enviar" />
+          <div className="userEmail">
+            <label htmlFor="email">Email: </label>
+            <input
+              type="email"
+              value={email}
+              onChange={eventEmail}
+              name="email"
+              id="email"
+              required
+            />
+          </div>
+          <div className="userPass">
+            <label htmlFor="password">Password: </label>
+            <input
+              type="password"
+              value={password}
+              onChange={eventPass}
+              name="pass"
+              id="pass"
+              required
+            />
+          </div>
+          <a href="" className="recPass">
+            Recuperar contraseña
+          </a>
         </fieldset>
+        <input type="submit" value="Enviar" className="submitButton" />
       </form>
     </div>
   );
