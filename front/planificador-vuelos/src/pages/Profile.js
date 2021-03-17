@@ -28,9 +28,9 @@ export const Profile = () => {
   if (profileImage === "") {
     setProfileImage(`http://localhost:8088/images/profiles/${foto}`);
   }
-  if (foto === "") {
-    setProfileImage(`http://localhost:8088/images/profiles/user.png`);
-  }
+  // if (foto === "") {
+  //   setProfileImage(`http://localhost:8088/images/profiles/user.png`);
+  // }
 
   const onFileChange = (e) => {
     setOkMsg("");

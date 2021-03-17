@@ -29,7 +29,7 @@ async function registerUsers(req, res) {
       throw error;
     }
     const passwordHash = await bcrypt.hash(password, 12);
-    const id = await createUser(name, email, passwordHash, "", "user");
+    const id = await createUser(name, email, passwordHash, "user.png", "user");
 
     const codeActivation = cryptoRandomString({ length: 64 });
     //await sendEmailActivation(name, email, codeActivation);
