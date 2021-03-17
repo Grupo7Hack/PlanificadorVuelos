@@ -2,10 +2,10 @@ import React, { useState, useContext } from "react";
 import { Redirect } from "react-router-dom";
 import { AuthContext } from "../App";
 import { useLocalStorage } from "../hooks/useLocalStorage";
-import "../css/Profile.css";
+import "../css/Login.css";
 
 export const Profile = () => {
-  const [token, setToken] = useContext(AuthContext);
+  const [token] = useContext(AuthContext);
 
   const [profileImage, setProfileImage] = useLocalStorage("imgProfile");
   const [inputname, setInputName] = useLocalStorage("name");
@@ -82,7 +82,6 @@ export const Profile = () => {
     e.preventDefault();
     let data = new FormData();
 
-    // data.append("userid", id);
     data.append("image", file);
 
     const uploadFile = await fetch(
@@ -150,7 +149,7 @@ export const Profile = () => {
   const homepage = !token ? (
     <Redirect to="login" />
   ) : (
-    <div className="contenido-princ">
+    <div id="principal" className="cont_ppal">
       {profileImage && (
         <div>
           <img src={profileImage} alt="imagen" className="profileImage"></img>
@@ -168,54 +167,55 @@ export const Profile = () => {
 
       <form onSubmit={updateUser}>
         <fieldset className="userInfo">
-          <legend>Datos Personales</legend>
-          <div className="userName">
-            <label htmlFor="name">Nombre: </label>
-            <input
-              type="text"
-              value={name}
-              onChange={eventName}
-              name="name"
-              id="name"
-              required
-            />
-          </div>
           <div className="userEmail">
-            <label htmlFor="email">Email: </label>
             <input
               type="email"
               value={userEmail}
               onChange={eventEmail}
               onBlur={eventValidarEmail}
+              placeholder="Email"
+              autoComplete="off"
               name="email"
               id="email"
               disabled
             />
           </div>
+          <div className="userName">
+            <input
+              type="text"
+              value={name}
+              onChange={eventName}
+              placeholder="Nombre"
+              autoComplete="off"
+              name="name"
+              id="name"
+              required
+            />
+          </div>
           <div className="userPass">
-            <label htmlFor="password">Contraseña: </label>
             <input
               type="password"
               value={userPassword}
               onChange={eventPass}
               onKeyUp={eventValidarPass}
+              placeholder="Contraseña"
               name="pass"
               id="pass"
             />
           </div>
           <div className="userRPass">
-            <label htmlFor="password">Repetir contraseña: </label>
             <input
               type="password"
               value={rpassword}
               onChange={eventRPass}
               onKeyUp={eventValidarRPass}
+              placeholder="Repetir contraseña"
               name="rpass"
               id="rpass"
             />
           </div>
         </fieldset>
-        <input type="submit" value="Guardar" className="submitButton" />
+        <input type="submit" value="Guardar" className="logInButton" />
       </form>
     </div>
   );

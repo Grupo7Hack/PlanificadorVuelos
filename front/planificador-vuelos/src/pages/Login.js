@@ -54,34 +54,36 @@ export const Login = () => {
       {okMsg && <span style={{ backgroundColor: "pink" }}>{okMsg}</span>}
       <form onSubmit={loginUser}>
         <fieldset className="userInfo">
-          <legend>Login</legend>
           <div className="userEmail">
-            <label htmlFor="email">Email: </label>
             <input
               type="email"
               value={email}
               onChange={eventEmail}
+              placeholder="Email"
+              autoComplete="off"
               name="email"
               id="email"
               required
             />
           </div>
           <div className="userPass">
-            <label htmlFor="password">Password: </label>
             <input
               type="password"
               value={password}
               onChange={eventPass}
+              placeholder="Contraseña"
               name="pass"
               id="pass"
               required
             />
           </div>
+        </fieldset>
+        <input type="submit" value="Iniciar sesión" className="logInButton" />
+        <div className="recPassContainer">
           <a href="" className="recPass">
             Recuperar contraseña
           </a>
-        </fieldset>
-        <input type="submit" value="Enviar" className="submitButton" />
+        </div>
       </form>
     </div>
   );
