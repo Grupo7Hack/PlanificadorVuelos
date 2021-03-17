@@ -44,16 +44,17 @@ function App() {
       <Router>
         <div>
           <nav>
-            <ul className="navigation">
-              <div className="logoLink">
+            <ul>
+              <div>
                 <li>
                   <Link to="/">
-                    <img src={logo} alt="Logo" width="140px" className="logo" />
+                    Inicio
+                    {/* <img src={logo} alt="Logo" width="140px" className="logo" /> */}
                   </Link>
                 </li>
               </div>
               {isLoggedIn && (
-                <div className="noLogoLinks">
+                <div>
                   <li>
                     <Link to="/profile">Perfil</Link>
                   </li>

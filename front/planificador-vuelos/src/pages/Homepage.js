@@ -3,6 +3,7 @@ import { ReactSelectOrigin } from "../components/ReactSelectOrigin";
 import { ReactSelectDestination } from "../components/ReactSelectDestination";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import "../css/Homepage.css";
+import logo from "../img/logo.png";
 import adultImg from "../img/adult.png";
 import kidImg from "../img/kid.png";
 import babyImg from "../img/baby.png";
@@ -16,6 +17,7 @@ export const Homepage = ({ origen, destino }) => {
         max="2022-03-09"
         name="trip-start"
         required="required"
+        className="dateInput"
         onChange={outboundDateHandler}
       ></input>
       <input
@@ -23,6 +25,7 @@ export const Homepage = ({ origen, destino }) => {
         min="2021-03-09"
         max="2022-03-09"
         name="trip-end"
+        className="dateInput"
         onChange={inboundDateHandler}
       ></input>
     </div>
@@ -137,6 +140,7 @@ export const Homepage = ({ origen, destino }) => {
             max="2022-03-09"
             name="trip-start"
             required="required"
+            className="dateInput"
             onChange={outboundDateHandler}
           ></input>
         </div>
@@ -177,7 +181,10 @@ export const Homepage = ({ origen, destino }) => {
         <div className="passengersAndScales">
           <div className="passengers">
             <div className="passenger-count">
-              <select onChange={numberOfAdultsHandler}>
+              <select
+                onChange={numberOfAdultsHandler}
+                className="passengersSelect"
+              >
                 {numberOfPassengersOptions}
               </select>
               <img
@@ -189,7 +196,10 @@ export const Homepage = ({ origen, destino }) => {
               />
             </div>
             <div className="passenger-count">
-              <select onChange={numberOfChildrenHandler}>
+              <select
+                onChange={numberOfChildrenHandler}
+                className="passengersSelect"
+              >
                 <option key="0">0</option>
                 {numberOfPassengersOptions}
               </select>
@@ -202,7 +212,10 @@ export const Homepage = ({ origen, destino }) => {
               />
             </div>
             <div className="passenger-count">
-              <select onChange={numberOfInfantsHandler}>
+              <select
+                onChange={numberOfInfantsHandler}
+                className="passengersSelect"
+              >
                 <option key="0">0</option>
                 {numberOfPassengersOptions}
               </select>
@@ -309,14 +322,13 @@ export const Homepage = ({ origen, destino }) => {
       },
       body: JSON.stringify(data),
     });
-    // const result = saveReservation.json();
     if (saveReservation.status === 201) {
       setErrorMsg("");
       setOkMsg(
         `Reserva realizada con éxito, se han enviado los datos de la misma a su correo electrónico.`
       );
-      // setSelectedOutboundFlight();
-      // setSelectedInboundFlight();
+      setSelectedOutboundFlight();
+      setSelectedInboundFlight();
     } else {
       setOkMsg("");
       setErrorMsg("Error al realizar la reserva");
@@ -334,7 +346,7 @@ export const Homepage = ({ origen, destino }) => {
       if (token) {
         makeReservation(selectedOutboundFlight, inboundFlightToSelect);
       } else {
-        window.prompt(
+        window.alert(
           "Por favor regístrese o inicie sesión para efectúar una reserva."
         );
       }
@@ -350,7 +362,7 @@ export const Homepage = ({ origen, destino }) => {
           setSelectedOutboundFlight(outboundFlightToSelect);
           makeReservation(outboundFlightToSelect);
         } else {
-          window.prompt(
+          window.alert(
             "Por favor regístrese o inicie sesión para efectúar una reserva."
           );
         }
@@ -402,6 +414,9 @@ export const Homepage = ({ origen, destino }) => {
     if (pricesData.length < 1) {
       return (
         <div className="all-container">
+          <div>
+            <img src={logo} alt="logo" width="200"></img>
+          </div>
           <span style={{ backgroundColor: "red" }}>
             No existen vuelos, modifique los filtros.
           </span>
@@ -413,6 +428,9 @@ export const Homepage = ({ origen, destino }) => {
       let typeOfFlight = selectedOutboundFlight ? "vuelta" : "ida";
       return (
         <div className="all-container">
+          <div>
+            <img src={logo} alt="logo" width="200"></img>
+          </div>
           {errorMsg && (
             <span style={{ backgroundColor: "red" }}>{errorMsg}</span>
           )}
@@ -524,5 +542,13 @@ export const Homepage = ({ origen, destino }) => {
     }
   }
 
-  return <div className="all-container">{searchForm}</div>;
+  return (
+    <div className="all-container">
+      {" "}
+      <div>
+        <img src={logo} alt="logo" width="200"></img>
+      </div>
+      {searchForm}
+    </div>
+  );
 };

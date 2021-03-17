@@ -1,15 +1,11 @@
-import React, { useState, useContext } from "react";
-import "../css/Register.css";
-// import { AuthContext } from "../../App";
-// import { useLocalStorage } from "../useLocalStorage";
+import React, { useState } from "react";
+import "../css/Login.css";
 
 export const Register = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rpassword, setRPassword] = useState("");
-  // const [token, setToken] = useContext(AuthContext);
-  //   const [token, setToken] = useLocalStorage("accessToken", "");
   const [errorMsg, setErrorMsg] = useState("");
   const [okMsg, setOkMsg] = useState("");
   const expr = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
@@ -74,7 +70,6 @@ export const Register = () => {
       });
       const token = await saveUser.json();
       if (saveUser.status === 201) {
-        // setToken(token.accessToken);
         setOkMsg(
           `Usuario registrado con exito, activa tu cuenta con el codigo de verificación que fue enviado a ${email}`
         );
@@ -86,8 +81,6 @@ export const Register = () => {
       } else {
         setErrorMsg("Error al registrar el usuario");
         setErrorMsg(token.error);
-        // setName("");
-        // setEmail("");
         setPassword("");
         setRPassword("");
       }
@@ -99,56 +92,57 @@ export const Register = () => {
       {okMsg && <span style={{ backgroundColor: "pink" }}>{okMsg}</span>}
       <form onSubmit={registerUser}>
         <fieldset className="userInfo">
-          <legend>Registro</legend>
           <div className="userName">
-            <label htmlFor="name">Nombre: </label>
             <input
               type="text"
               value={name}
               onChange={eventName}
+              placeholder="Nombre"
+              autoComplete="off"
               name="name"
               id="name"
               required
             />
           </div>
           <div className="userEmail">
-            <label htmlFor="email">Email: </label>
             <input
               type="email"
               value={email}
               onChange={eventEmail}
               onBlur={eventValidarEmail}
+              placeholder="Email"
+              autoComplete="off"
               name="email"
               id="email"
               required
             />
           </div>
           <div className="userPass">
-            <label htmlFor="password">Password: </label>
             <input
               type="password"
               value={password}
               onChange={eventPass}
               onKeyUp={eventValidarPass}
+              placeholder="Contraseña"
               name="pass"
               id="pass"
               required
             />
           </div>
           <div className="userRPass">
-            <label htmlFor="password">Repetir Password: </label>
             <input
               type="password"
               value={rpassword}
               onChange={eventRPass}
               onKeyUp={eventValidarRPass}
+              placeholder="Repetir contraseña"
               name="rpass"
               id="rpass"
               required
             />
           </div>
         </fieldset>
-        <input type="submit" value="Enviar" className="submitButton" />
+        <input type="submit" value="Enviar" className="logInButton" />
       </form>
     </div>
   );
