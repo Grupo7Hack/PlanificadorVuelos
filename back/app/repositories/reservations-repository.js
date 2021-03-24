@@ -1,5 +1,15 @@
 "use strict";
+const { createReadStream } = require("fs");
 const database = require("../infrastructure/database");
+
+async function getReservations(userId) {
+  const pool = await database.getConnection();
+
+  const query = `SELECT * FROM reservas WHERE id_usuario = ?`;
+  const [result] = await pool.query(query, userId);
+
+  return result;
+}
 
 async function makeReservation(userId, data) {
   const pool = await database.getConnection();
@@ -36,8 +46,9 @@ async function makeReservation(userId, data) {
   };
   const query = "INSERT INTO reservas SET ?";
   const [created] = await pool.query(query, reservation);
+  console.log(created);
 
   return created.insertId;
 }
 
-module.exports = makeReservation;
+module.exports = { makeReservation, getReservations };

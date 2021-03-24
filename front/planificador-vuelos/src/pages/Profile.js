@@ -23,6 +23,8 @@ export const Profile = () => {
   const dataUser = JSON.parse(window.atob(base64));
   const { id, nombre, email, password, foto } = dataUser;
 
+  const [userReservations, setUserReservations] = useState("");
+
   const [name, setName] = useState(nombre);
   if (userEmail === "") setUserEmail(email);
   if (profileImage === "") {
@@ -31,6 +33,12 @@ export const Profile = () => {
   // if (foto === "") {
   //   setProfileImage(`http://localhost:8088/images/profiles/user.png`);
   // }
+  let counter = 0;
+  if (userReservations === "" && counter < 2) {
+    console.log(counter, userReservations);
+    getReservations();
+    counter++;
+  }
 
   const onFileChange = (e) => {
     setOkMsg("");
@@ -101,6 +109,7 @@ export const Profile = () => {
 
   const updateUser = async (e) => {
     e.preventDefault();
+
     let dataUserUpdate = {
       ...dataUser,
     };
@@ -146,77 +155,141 @@ export const Profile = () => {
     console.log("Respuesta update", responseData);
   };
 
+  async function getReservations() {
+    const result = [];
+    const response = await fetch(
+      `http://localhost:8088/api/v1/reservation/${id}`
+    )
+      .then((response) => {
+        return response.json();
+      })
+      .then((reservations) => {
+        for (const reservation of Object.values(reservations)) {
+          result.push(reservation);
+        }
+      });
+    console.log(result);
+    setUserReservations(result);
+  }
+
   const homepage = !token ? (
     <Redirect to="login" />
   ) : (
     <div id="principal" className="cont_ppal">
-      {profileImage && (
+      {userReservations && (
         <div>
-          <img src={profileImage} alt="imagen" className="profileImage"></img>
+          <ul className="reservation-results-list">
+            {userReservations.map((d) => (
+              <li key={d.id} className="reservation-result">
+                <h2>
+                  Reserva fecha{" "}
+                  {new Date(Date.parse(d.fecha_reserva)).toLocaleString()}
+                </h2>
+                <h3>VUELO IDA:</h3>
+                <p>
+                  De {d.origen} a {d.destino}
+                </p>
+                <p>{new Date(Date.parse(d.fecha_inicio)).toLocaleString()}</p>
+                <details>
+                  <summary>Más información</summary>
+                  <ul>
+                    <li>Aerolínea: {d.aerolinea_ida}</li>
+                    <li>Escalas: {d.escalas_ida}</li>
+                    <li>{d.num_adultos} Adulto(s)</li>
+                    <li>{d.num_ninos} Niño(s)</li>
+                    <li>{d.num_bebes} Bebe(s)</li>
+                  </ul>
+                </details>
+                <h3>VUELO VUELTA</h3>
+                <p>
+                  De {d.destino} a {d.origen}
+                </p>
+                <p>{new Date(Date.parse(d.fecha_fin)).toLocaleString()}</p>
+                <details>
+                  <summary>Más información</summary>
+                  <ul>
+                    <li>Aerolínea: {d.aerolinea_vuelta}</li>
+                    <li>Escalas: {d.escalas_vuelta}</li>
+                    <li>{d.num_adultos} Adulto(s)</li>
+                    <li>{d.num_ninos} Niño(s)</li>
+                    <li>{d.num_bebes} Bebe(s)</li>
+                  </ul>
+                </details>
+                <h5>Precio: {d.precio}€</h5>
+              </li>
+            ))}
+          </ul>
         </div>
       )}
-      {errorMsg && <span style={{ backgroundColor: "red" }}>{errorMsg}</span>}
-      {okMsg && <span style={{ backgroundColor: "pink" }}>{okMsg}</span>}
+      <div className="forms-container">
+        {profileImage && (
+          <div>
+            <img src={profileImage} alt="imagen" className="profileImage"></img>
+          </div>
+        )}
+        {errorMsg && <span style={{ backgroundColor: "red" }}>{errorMsg}</span>}
+        {okMsg && <span style={{ backgroundColor: "pink" }}>{okMsg}</span>}
 
-      <form onSubmit={newFile}>
-        <div>
-          <input type="file" onChange={onFileChange} className="fileInput" />
-          <button type="submit">Actualizar</button>
-        </div>
-      </form>
+        <form onSubmit={newFile}>
+          <div>
+            <input type="file" onChange={onFileChange} className="fileInput" />
+            <button type="submit">Actualizar</button>
+          </div>
+        </form>
 
-      <form onSubmit={updateUser}>
-        <fieldset className="userInfo">
-          <div className="userEmail">
-            <input
-              type="email"
-              value={userEmail}
-              onChange={eventEmail}
-              onBlur={eventValidarEmail}
-              placeholder="Email"
-              autoComplete="off"
-              name="email"
-              id="email"
-              disabled
-            />
-          </div>
-          <div className="userName">
-            <input
-              type="text"
-              value={name}
-              onChange={eventName}
-              placeholder="Nombre"
-              autoComplete="off"
-              name="name"
-              id="name"
-              required
-            />
-          </div>
-          <div className="userPass">
-            <input
-              type="password"
-              value={userPassword}
-              onChange={eventPass}
-              onKeyUp={eventValidarPass}
-              placeholder="Contraseña"
-              name="pass"
-              id="pass"
-            />
-          </div>
-          <div className="userRPass">
-            <input
-              type="password"
-              value={rpassword}
-              onChange={eventRPass}
-              onKeyUp={eventValidarRPass}
-              placeholder="Repetir contraseña"
-              name="rpass"
-              id="rpass"
-            />
-          </div>
-        </fieldset>
-        <input type="submit" value="Guardar" className="logInButton" />
-      </form>
+        <form onSubmit={updateUser} className="user-data-form">
+          <fieldset className="userInfo">
+            <div className="userEmail">
+              <input
+                type="email"
+                value={userEmail}
+                onChange={eventEmail}
+                onBlur={eventValidarEmail}
+                placeholder="Email"
+                autoComplete="off"
+                name="email"
+                id="email"
+                disabled
+              />
+            </div>
+            <div className="userName">
+              <input
+                type="text"
+                value={name}
+                onChange={eventName}
+                placeholder="Nombre"
+                autoComplete="off"
+                name="name"
+                id="name"
+                required
+              />
+            </div>
+            <div className="userPass">
+              <input
+                type="password"
+                value={userPassword}
+                onChange={eventPass}
+                onKeyUp={eventValidarPass}
+                placeholder="Contraseña"
+                name="pass"
+                id="pass"
+              />
+            </div>
+            <div className="userRPass">
+              <input
+                type="password"
+                value={rpassword}
+                onChange={eventRPass}
+                onKeyUp={eventValidarRPass}
+                placeholder="Repetir contraseña"
+                name="rpass"
+                id="rpass"
+              />
+            </div>
+          </fieldset>
+          <input type="submit" value="Guardar" className="logInButton" />
+        </form>
+      </div>
     </div>
   );
   return homepage;

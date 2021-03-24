@@ -24,6 +24,7 @@ nav ul {
     inset 0 0 1px rgba(255, 255, 255, 0.6);
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
 nav ul li {
@@ -45,4 +46,11 @@ nav ul li a:hover {
     inset 0 0 1px rgba(255, 255, 255, 0.6);
   background: rgba(255, 255, 255, 0.1);
   color: rgba(0, 35, 122, 0.7);
+}
+
+.avatarImage {
+  height: 50px;
+  width: 50px;
+  object-fit: cover;
+  border-radius: 50%;
 }

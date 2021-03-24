@@ -65,7 +65,7 @@ async function createReservation(req, res) {
       aerolineaVuelta,
     };
     const reservation = await makeReservation(id, dataReservation);
-    // await sendEmailReservation(nombre, email, dataReservation);
+    await sendEmailReservation(nombre, email, dataReservation);
 
     res.status(201).send({ id: reservation });
   } catch (err) {

@@ -8,7 +8,6 @@ import { Logout } from "./pages/Logout";
 import { Profile } from "./pages/Profile";
 import { useLocalStorage } from "./components/useLocalStorage";
 import Footer from "./components/footer";
-import logo from "./img/logo.png";
 
 export const AuthContext = React.createContext();
 const AuthProvider = (props) => {
@@ -25,6 +24,7 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState("");
   const [origin, setOrigin] = useState({});
   const [destination, setDestination] = useState({});
+  const [profileImage] = useLocalStorage("imgProfile");
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -60,7 +60,7 @@ function App() {
                   </li>
                   <li>
                     <Link to="/logout">Cerrar Sesión</Link>
-                  </li>
+                  </li>{" "}
                 </div>
               )}
               {!isLoggedIn && (
@@ -72,6 +72,19 @@ function App() {
                     <Link to="/login">Iniciar sesión</Link>
                   </li>
                 </div>
+              )}
+              {profileImage && isLoggedIn && (
+                <li className="avatarImageLi">
+                  <Link to="/profile">
+                    <div>
+                      <img
+                        src={profileImage}
+                        alt="imagen"
+                        className="avatarImage"
+                      ></img>
+                    </div>
+                  </Link>
+                </li>
               )}
             </ul>
           </nav>

@@ -19,12 +19,15 @@ body {
 }
 
 .cont_ppal {
-  margin: 0% 30%;
+  margin: 0% 20%;
   max-width: 1900px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   text-align: center;
+}
+.forms-container {
+  margin: 0% 10%;
 }
 .userInfo {
   margin: 3% 0%;
@@ -107,6 +110,28 @@ body {
 .recPass:hover {
   opacity: 0.5;
 }
+.user-data-form {
+  padding-bottom: 50px;
+}
+
+/******************* RESERVAS *******************/
+.reservation-results-list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-flow: row wrap;
+}
+.reservation-result {
+  list-style: none;
+  border-left: 1px solid rgb(128, 127, 127);
+  flex: 1 0 40%;
+  padding: 10px;
+  text-align: left;
+  margin: 2rem;
+}
+summary {
+  outline: none;
+}
 
 @keyframes clickerino {
   from {
@@ -124,6 +149,10 @@ body {
 }
 
 @media all and (max-width: 600px) {
+  .profileImage {
+    height: 100px;
+    width: 100px;
+  }
   #name,
   #email,
   #pass,
@@ -159,6 +188,10 @@ body {
 }
 
 @media all and (max-width: 466px) {
+  .profileImage {
+    height: 60px;
+    width: 60px;
+  }
   #name,
   #email,
   #pass,
